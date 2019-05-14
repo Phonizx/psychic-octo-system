@@ -25,9 +25,7 @@ class utils:
             self.index2word[0] = "PAD"
             self.index2word[1] = "START"
             self.index2word[2] = "OOV"
-            print(self.word2index)
-            print(self.index2word)
-            #self.write_dicts(path)
+            self.write_dicts(path)
 
     def write_dicts(self,path_write):
         dict_file = open(path_write + "/dizionari.json", "a")
