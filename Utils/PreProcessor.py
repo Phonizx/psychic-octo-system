@@ -64,7 +64,7 @@ class processing: #ama cambie nom
         self.x_train = np.asarray(self.x_train)
         self.y_train = np.asarray(self.y_train) 
         self.save_data()
-
+    
     def save_data(self):
         try:
             np.save("x_train",self.x_train)
@@ -72,7 +72,7 @@ class processing: #ama cambie nom
             dizionari = []
             dizionari.append(self.word2int)
             dizionari.append(self.int2word)
-
+            dizionari.append(self.vocab_size)
             dict_file = open(self.path + "/dizionari.json", "a")
             dict_file.write(json.dumps(dizionari))
             dict_file.close()
@@ -80,13 +80,14 @@ class processing: #ama cambie nom
         except:
             print("Errore nel salvataggio dei dati sul disco.")
 
- 
-
+    def get_vocabSize(self):
+            return self.vocab_size
+    
 #testing processor 
 
-
-pre = processing("/home/phinkie/Scrivania/psychic-octo-system/data/")
+pre = processing("/home/phinkie/Scrivania/psychic-octo-system/data/") #Workdir  dati 
 pre.build_dicts()
 pre.create_dataSet()
+
 
 

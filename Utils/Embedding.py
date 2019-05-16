@@ -11,24 +11,29 @@ class Embedding:
         x_train = None
         y_train = None
 
-        embeddedWords = None 
+         
         int2word = {}
         word2int = {} 
 
-        def  __init__(self,path_ds,vocab_size,emb_dim = 5):
-                self.vocab_size = vocab_size
+        embeddedWords = None
+
+        def  __init__(self,path_ds,emb_dim = 5):
                 self.path = path_ds
                 self.EMBEDDING_DIM = emb_dim
-                self.load_data(self.path)
-
+        
+                with open(self.path + "/dizionari.json") as diz:
+                        diz_json = json.load(diz)
+                self.vocab_size = diz_json[2]
+                self.word2int = diz_json[0]
+                self.int2word = diz_json[1]
+                self.int2word = {int(k):v for k,v in self.int2word.items()}
+                self.load_data(self.path) 
+                
         def load_data(self,path):
-                self.x_train = np.load(path + "/x_train.npy")
+                self.x_train = np.load(path + "x_train.npy")
                 self.y_train = np.load(path + "y_train.npy")
-                with open(path + "/dict.json") as dicts:
-                        diz = json.load(dicts)
-                        #splitting dictts  W 
 
-        def embedding_words(self):
+        def embedding_words(self,epochs = 7000,learning_rate = 0.1):
                 #INPUT LAYER 
                 x = tf.placeholder(tf.float32, shape=(None, self.vocab_size))
                 y_label = tf.placeholder(tf.float32, shape=(None, self.vocab_size))
@@ -52,19 +57,70 @@ class Embedding:
                 # define the loss function:
                 cross_entropy_loss = tf.reduce_mean(-tf.reduce_sum(y_label * tf.log(prediction), reduction_indices=[1]))
                 # define the training step:
-                train_step = tf.train.GradientDescentOptimizer(0.1).minimize(cross_entropy_loss)
-                n_iters = 7000 # REF 
+                train_step = tf.train.GradientDescentOptimizer(learning_rate).minimize(cross_entropy_loss)
+                  
                 # train for n_iter iterations
-                for _ in range(n_iters):
+                for i in range(epochs):
                         sess.run(train_step, feed_dict={x: self.x_train, y_label: self.y_train})
-                        print('loss is : ', sess.run(cross_entropy_loss, feed_dict={x: self.x_train, y_label: self.y_train}))
-                self.embeddedWords =  sess.run(W1,b1)
+                        if i % 50:
+                                print("Epoch: " + str(i) + " Loss: " + str(sess.run(cross_entropy_loss, feed_dict={x: self.x_train, y_label: self.y_train})))
+                self.embeddedWords =  sess.run(W1 + b1)
                 sess.close()
                 return self.embeddedWords
 
         def print_embeddedMatrix(self):
                 for i in range(0,self.vocab_size):
                         print(self.int2word[i] + " : " + str(self.embeddedWords[i]))
+        
+
+
+emb = Embedding("/home/phinkie/Scrivania/psychic-octo-system/dataUtils/")
+emb.embedding_words()
+emb.print_embeddedMatrix()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 '''
 TESTING 
 print("\n\n\n\n")
