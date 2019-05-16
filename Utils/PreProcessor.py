@@ -1,6 +1,6 @@
 import numpy as np
 import glob,os 
-
+import json 
 
 class processing: #ama cambie nom 
     path = ""
@@ -62,9 +62,9 @@ class processing: #ama cambie nom
         np.save("x_train",self.x_train)
         np.save("y_train",self.y_train)
         dizionari = []
-        dizionari.append(self.word2index)
-        dizionari.append(self.index2word)
+        dizionari.append(self.word2int)
+        dizionari.append(self.int2word)
 
-        dict_file = open(path_write + "/dizionari.json", "a")
-        dict_file.write(json.dumps(dizionari)
+        dict_file = open(self.path + "/dizionari.json", "a")
+        dict_file.write(json.dumps(dizionari))
         dict_file.close()
