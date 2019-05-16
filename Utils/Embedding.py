@@ -1,6 +1,86 @@
 import numpy as np
 import tensorflow as tf
 import matplotlib.pyplot as plt
+import json 
+
+class Embedding:
+        vocab_size = 0
+        path = ""
+        EMBEDDING_DIM = 5 
+
+        x_train = None
+        y_train = None
+
+        embeddedWords = None 
+        int2word = {}
+        word2int = {} 
+
+        def  __init__(self,path_ds,vocab_size,emb_dim = 5):
+                self.vocab_size = vocab_size
+                self.path = path_ds
+                self.EMBEDDING_DIM = emb_dim
+                self.load_data(self.path)
+
+        def load_data(self,path):
+                self.x_train = np.load(path + "/x_train.npy")
+                self.y_train = np.load(path + "y_train.npy")
+                with open(path + "/dict.json") as dicts:
+                        diz = json.load(dicts)
+                        #splitting dictts  W 
+
+        def embedding_words(self):
+                #INPUT LAYER 
+                x = tf.placeholder(tf.float32, shape=(None, self.vocab_size))
+                y_label = tf.placeholder(tf.float32, shape=(None, self.vocab_size))
+
+                #len embedded-vector
+                #HIDDEN LAYER
+                # you can choose your own number
+                W1 = tf.Variable(tf.random_normal([self.vocab_size, self.EMBEDDING_DIM]))
+                b1 = tf.Variable(tf.random_normal([self.EMBEDDING_DIM])) #bias
+                hidden_representation = tf.add(tf.matmul(x,W1), b1)
+                
+                #OUTPUT LAYER 
+                W2 = tf.Variable(tf.random_normal([self.EMBEDDING_DIM, self.vocab_size]))
+                b2 = tf.Variable(tf.random_normal([self.vocab_size]))
+                prediction = tf.nn.softmax(tf.add( tf.matmul(hidden_representation, W2), b2))
+
+
+                sess = tf.Session()
+                init = tf.global_variables_initializer()
+                sess.run(init) #make sure you do this!
+                # define the loss function:
+                cross_entropy_loss = tf.reduce_mean(-tf.reduce_sum(y_label * tf.log(prediction), reduction_indices=[1]))
+                # define the training step:
+                train_step = tf.train.GradientDescentOptimizer(0.1).minimize(cross_entropy_loss)
+                n_iters = 7000 # REF 
+                # train for n_iter iterations
+                for _ in range(n_iters):
+                        sess.run(train_step, feed_dict={x: self.x_train, y_label: self.y_train})
+                        print('loss is : ', sess.run(cross_entropy_loss, feed_dict={x: self.x_train, y_label: self.y_train}))
+                self.embeddedWords =  sess.run(W1,b1)
+                sess.close()
+                return self.embeddedWords
+
+        def print_embeddedMatrix(self):
+                for i in range(0,self.vocab_size):
+                        print(self.int2word[i] + " : " + str(self.embeddedWords[i]))
+'''
+TESTING 
+print("\n\n\n\n")
+for i in range(0,vocab_size):
+    print(int2word[i] + " : " + str(vectors[i]))
+
+
+
+print(int2word[find_closest(word2int['re'], vectors)])
+print(int2word[find_closest(word2int['regina'], vectors)])
+print(int2word[find_closest(word2int['reame'], vectors)])
+'''
+
+'''
+#da parola al vettore one-hot 
+
 
 def to_one_hot(data_point_index, vocab_size):
     temp = np.zeros(vocab_size)
@@ -70,46 +150,9 @@ for data_word in data:
 x_train = np.asarray(x_train)
 y_train = np.asarray(y_train)
 
+#print(x_train)
+np.save("test",x_train)
 
-
-x = tf.placeholder(tf.float32, shape=(None, vocab_size))
-y_label = tf.placeholder(tf.float32, shape=(None, vocab_size))
-
-#len embedded-vector
-#layer nascosto
-EMBEDDING_DIM = 5 # you can choose your own number
-W1 = tf.Variable(tf.random_normal([vocab_size, EMBEDDING_DIM]))
-b1 = tf.Variable(tf.random_normal([EMBEDDING_DIM])) #bias
-hidden_representation = tf.add(tf.matmul(x,W1), b1)
-#layer di output
-W2 = tf.Variable(tf.random_normal([EMBEDDING_DIM, vocab_size]))
-b2 = tf.Variable(tf.random_normal([vocab_size]))
-prediction = tf.nn.softmax(tf.add( tf.matmul(hidden_representation, W2), b2))
-
-
-sess = tf.Session()
-init = tf.global_variables_initializer()
-sess.run(init) #make sure you do this!
-# define the loss function:
-cross_entropy_loss = tf.reduce_mean(-tf.reduce_sum(y_label * tf.log(prediction), reduction_indices=[1]))
-# define the training step:
-train_step = tf.train.GradientDescentOptimizer(0.1).minimize(cross_entropy_loss)
-n_iters = 7000
-# train for n_iter iterations
-for _ in range(n_iters):
-    sess.run(train_step, feed_dict={x: x_train, y_label: y_train})
-    print('loss is : ', sess.run(cross_entropy_loss, feed_dict={x: x_train, y_label: y_train}))
-
-#hidden layer
-vectors = sess.run(W1 + b1)
-#print(vectors)
-
-print("\n\n\n\n")
-for i in range(0,vocab_size):
-    print(int2word[i] + " : " + str(vectors[i]))
-
-
-
-print(int2word[find_closest(word2int['re'], vectors)])
-print(int2word[find_closest(word2int['regina'], vectors)])
-print(int2word[find_closest(word2int['reame'], vectors)])
+xload = np.load("test.npy")
+print(xload)
+'''

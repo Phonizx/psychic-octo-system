@@ -37,8 +37,8 @@ class processing: #ama cambie nom
                 self.word2int[word] = i
                 self.int2word[i] = word
 
-    def split_inWindow(self):
-        WINDOW_SIZE = 2
+    def split_inWindow(self,win_size = 2):
+        WINDOW_SIZE = win_size
         for sentence in self.sentences:
             for word_index, word in enumerate(sentence):
                 for nb_word in sentence[max(word_index - WINDOW_SIZE, 0) : min(word_index + WINDOW_SIZE, len(sentence)) + 1] :
@@ -56,4 +56,15 @@ class processing: #ama cambie nom
             self.y_train.append(self.to_one_hot(self.word2int[data_word[1]], self.vocab_size))
         # convert them to numpy arrays
         self.x_train = np.asarray(self.x_train)
-        self.y_train = np.asarray(self.y_train)
+        self.y_train = np.asarray(self.y_train) 
+    
+    def save_data(self):
+        np.save("x_train",self.x_train)
+        np.save("y_train",self.y_train)
+        dizionari = []
+        dizionari.append(self.word2index)
+        dizionari.append(self.index2word)
+
+        dict_file = open(path_write + "/dizionari.json", "a")
+        dict_file.write(json.dumps(dizionari)
+        dict_file.close()
