@@ -22,6 +22,7 @@ class TextPreparation:
                 if l not in self.stopWords.keys():
                     self.stopWords[l] = i
                     i += 1
+        print("Stop Words loaded.")
         
 
     def no_punctuation(self,sentence):
@@ -43,10 +44,11 @@ class TextPreparation:
                    
             with open(file,"w") as f:
                 f.writelines(sentences)
+'''
 #testing
 tp = TextPreparation("/home/phinkie/Scrivania/psychic-octo-system/data/")
 tp.load_stopWord("/home/phinkie/Scrivania/psychic-octo-system/dataUtils/stop_words.txt") #path 
 tp.prepare_texts()
-
+'''
 
  
