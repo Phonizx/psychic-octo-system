@@ -17,7 +17,7 @@ class TextPreparation:
         #self.stemmer = SnowballStemmer("italian") 
         self.stemmer = nltk.stem.snowball.ItalianStemmer()
         
-    def no_punctuation(self,sentence):
+    def no_punctuation(self,sentence): #erase puncts 
         sentence = sentence.translate({ord(c) : '' for c in self.puncts})
         return sentence
     
@@ -50,7 +50,8 @@ class TextPreparation:
                 f.writelines(sentences)
 
 #testing
-
+'''
 tp = TextPreparation("/home/phinkie/Scrivania/psychic-octo-system/data/")
 tp.load_stopWord("/home/phinkie/Scrivania/psychic-octo-system/dataUtils/stop_words.txt") #path 
 tp.prepare_texts()
+'''
