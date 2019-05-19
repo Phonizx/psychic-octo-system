@@ -9,7 +9,7 @@ class TextPreparation:
 
     stopWords = {}
     #no white-space, no dot
-    puncts = ['!','?',',',';',':']
+    puncts = ['!','?',',',';',':','(',')']
     
 
     def __init__(self,path):
