@@ -27,13 +27,16 @@ class Embedding:
                 self.word2int = diz_json[0]
                 self.int2word = diz_json[1]
                 self.int2word = {int(k):v for k,v in self.int2word.items()}
+                print("Dictionaries loaded")
                 self.load_data(self.path) 
                 
         def load_data(self,path):
                 self.x_train = np.load(path + "x_train.npy")
                 self.y_train = np.load(path + "y_train.npy")
+                print("Data loaded")
 
         def embedding_words(self,epochs = 7000,learning_rate = 0.1):
+                print("Embedding... ")
                 #INPUT LAYER 
                 x = tf.placeholder(tf.float32, shape=(None, self.vocab_size))
                 y_label = tf.placeholder(tf.float32, shape=(None, self.vocab_size))
@@ -72,12 +75,15 @@ class Embedding:
                 for i in range(0,self.vocab_size):
                         print(self.int2word[i] + " : " + str(self.embeddedWords[i]))
         
-
+        def save_embeddedMatrix(self): 
+                with open(self.path + "WordEmbedded.txt","w") as f:
+                        for i in range(0,self.vocab_size):
+                                f.write(self.int2word[i] + " : " + str(self.embeddedWords[i]) + "\n") 
 
 emb = Embedding("/home/phinkie/Scrivania/psychic-octo-system/dataUtils/")
-emb.embedding_words()
+emb.embedding_words(200)
 emb.print_embeddedMatrix()
-
+emb.save_embeddedMatrix()
 
 
 

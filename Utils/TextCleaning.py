@@ -50,8 +50,7 @@ class TextPreparation:
                 f.writelines(sentences)
 
 #testing
-'''
+
 tp = TextPreparation("/home/phinkie/Scrivania/psychic-octo-system/data/")
 tp.load_stopWord("/home/phinkie/Scrivania/psychic-octo-system/dataUtils/stop_words.txt") #path 
 tp.prepare_texts()
-'''
