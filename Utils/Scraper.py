@@ -20,15 +20,18 @@ class Scraper:
         self.url_home = url
 
     def save_html(self, h, id):
+        try:
+            os.chdir("../Utils/html")
+        except:
+            print("",end="")
         ids = str(id).replace(" ","")
         ids = ids.replace("/","-").replace(".","_").replace(",","_")
         
-        html = "Pagina"+ids+".html"
-        
+        html = "Pagina" + ids + ".html"
         with open(html,"w", encoding="utf-8")as f:
             f.write(h)
         f.close()
-        return "./html/" + html
+        return html
 
     # def download_page_home(self):
     #     print("Downloading all page categories...")         
@@ -42,9 +45,9 @@ class Scraper:
     def download_page_cat(self):
         try:
             os.makedirs("./html")
+            os.chdir("../Utils/html")
         except FileExistsError:
             print("")
-        os.chdir("./html")
 
         print("Downloading all page categories...")
         for id in self.categoryIds:
@@ -103,14 +106,19 @@ class Scraper:
             indx.write(json.dumps(index))
         indx.close()
 
-
-
-    scrape info from html page
+    # scrape info from html page
     def scrape_page(self, page, id): 
+        try:
+            os.makedirs("./docs")
+            os.chdir("docs")
+        except FileExistsError:
+            print("", end="")
+
         with open(page, "r", encoding='raw_unicode_escape') as f:
             c = f.read()
             soup = BeautifulSoup(c, 'html.parser')
-            servizio = soup.find("div" "class":"scheda-online text-center")
+            servizio = soup.find("div", {"class":"scheda-online text-center"})
+            print(type(servizio))#.find("a"))#["href"])
             titolo = soup.find("div", {"class": "scheda-titolo"})
             sottotitoli = soup.find_all( "div", {"class": "accordion-heading"})
             inners = soup.find_all( "div", {"class": "accordion-inner"})
@@ -119,7 +127,7 @@ class Scraper:
             len_sottotitoli = len(sottotitoli)
             len_inners = len(inners)
             print("num sottitoli: "+ str(len_sottotitoli)+" num contenuti: "+str(len_inners))
-            with open("DOC"+id+".txt","w") as fp:
+            with open("./docs/DOC"+id+".txt","w") as fp:
                 fp.write("TITOLO:"+str(titolo.text.encode("utf-8")))
                 fp.write("\n")
                 for i in range(0,len_sottotitoli-1):                
@@ -138,31 +146,45 @@ class Scraper:
                     i+=1
             fp.close()
         f.close()
+        
+        try:
+            os.chdir("..")
+        except FileExistsError:
+            print("", end="")
 
-    # #path of the index
-    # def scraping(self, path):
-    #     with open(path, encoding='raw_unicode_escape') as indice_file: #encoding="raw_unicode_escape"
-    #         tmp = indice_file.read().encode('raw_unicode_escape').decode()
-    #         indice = json.loads(tmp)       
-    #         id = 1
-    #         for titolo, url in indice.items(): 
-    #             print(titolo+" "+url)
-    #             r = requests.get(url) 
-    #             if(r.status_code != 200):
-    #                 print("Errore"+str(r.status_code))
-    #                 time.sleep(20)
-    #             soup = BeautifulSoup(r.content, 'html.parser')
-    #             try:
-    #                 html = save_html(str(soup), titolo)            
-    #                 scrape_page(html, str(id))
-    #             except:
-    #                 print("°°°°°°°°°°°°°°°°"+str(id)+"°°°°°°°°°°°°°°°°°°°°°°°°°°")
-    #             id+=1
-    #             time.sleep(2)
+    def clean_title(self, t):
+        return t.replace("b\'  ","").replace("  \'","")
+    # #path_json of the index
+    def scraping(self, path_json):
+        with open(path_json, encoding='raw_unicode_escape') as indice_file:
+            tmp = indice_file.read().encode('raw_unicode_escape').decode()
+            indice = json.loads(tmp            )
+            id = 1
+            for titolo, url in indice.items():
+                t = self.clean_title(titolo)
+                print("TITOLO: "+ t + " URL:" + url)
+
+                r = requests.get(url) 
+                if(r.status_code != 200):
+                    print("Errore"+str(r.status_code))
+                    time.sleep(20)
+                soup = BeautifulSoup(r.content, 'html.parser')
+                html = self.save_html(str(soup), t) 
+                print(html)
+                # try:
+                self.scrape_page(html, str(id))
+                # except:
+                    # print("Errore in scrape_page o in save_html alla pagina : '"+str(id)+"'")
+                id+=1
+                time.sleep(2)
  
 
-url_home = 
+url_home = ""
 scraper = Scraper(url_home)
 # scraper.download_page_cat() #working
-path_json = ".html/index.json"
+path_json = "./html/index.json"
 # scraper.create_index(path_json) #working
+page = "D:\\a università\\terzo anno\\secondo semestre\\Sistemi ad agenti\\psychic-octo-system\\Utils\\html\\PaginaCAMBIODESTINAZIONEDUSODIIMMOBILE_RICHIESTADELPERM.html"
+page = "D:\\a università\\terzo anno\\secondo semestre\\Sistemi ad agenti\\psychic-octo-system\\Utils\\html\\PaginaCERTIFICATODIDESTINAZIONEDUSODIIMMOBILE.html"
+scraper.scrape_page(page,"10")
+# scraper.scraping(path_json)
