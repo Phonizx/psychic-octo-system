@@ -107,45 +107,56 @@ class Scraper:
         indx.close()
 
     # scrape info from html page
-    def scrape_page(self, page, id): 
+    def scrape_page(self, page, id, docs): 
         try:
             os.makedirs("./docs")
             os.chdir("docs")
         except FileExistsError:
             print("", end="")
 
-        with open(page, "r", encoding='raw_unicode_escape') as f:
-            c = f.read()
-            soup = BeautifulSoup(c, 'html.parser')
+        with open(page, "r", encoding='raw_unicode_escape') as page_html:
+            soup = BeautifulSoup(page_html.read(), 'html.parser')
+            #get "Vai al servizio"
             servizio = soup.find("div", {"class":"scheda-online text-center"})
-            print(type(servizio))#.find("a"))#["href"])
+            if servizio is None:
+                servizio = "-"
+            else:
+                servizio = servizio.find("a")["href"]
+            
+            #get all "allegati"
+            allegati = soup.find("ul",{"class":"allegati"})
+            if allegati is None:
+                allegati = []
+            else:
+                root = " "# root comune 
+                allegati = [root+s["href"] for s in allegati.find_all("a")]
+            
+            documento = ""
             titolo = soup.find("div", {"class": "scheda-titolo"})
-            sottotitoli = soup.find_all( "div", {"class": "accordion-heading"})
+            documento = documento+titolo.text
+            sottotitoli = soup.find_all( "div", {"class": "accordion-heading"}) 
             inners = soup.find_all( "div", {"class": "accordion-inner"})
 
             i=0
             len_sottotitoli = len(sottotitoli)
             len_inners = len(inners)
             print("num sottitoli: "+ str(len_sottotitoli)+" num contenuti: "+str(len_inners))
-            with open("./docs/DOC"+id+".txt","w") as fp:
-                fp.write("TITOLO:"+str(titolo.text.encode("utf-8")))
-                fp.write("\n")
-                for i in range(0,len_sottotitoli-1):                
-                    fp.write("SOTTOTITOLO:")
-                    fp.write(clean(sottotitoli[i].text).replace(" ",""))
-                    fp.write("\n")
-                    fp.write("CONTENUTO:")
-                    contenuto = str(inners[i].text.encode("utf-8"))
-                    c = clean(str(contenuto))
-                    fp.write(c)
-                    if len(c) == 0:
-                        time.sleep(123)
-                    fp.write("\n")
-                    #print(clean_escape(sottotitoli[i].text).replace(" ",""))    
-                    #print(clean_escape(inners[i].text).encode("utf-8"))
-                    i+=1
-            fp.close()
-        f.close()
+           
+            for i in range(0,len_sottotitoli-1):     
+                documento = documento + sottotitoli[i].text
+                documento = documento + inners[i].text
+            page_html.close()
+
+        # { 
+        #   "id": "idparam",
+        #   "titoli_univoci": "",
+        #   "documento" : "tuttolo il doc",
+        #   "allegati" : allegati,
+        #   "servizio" : servizio,
+        # }
+        single_doc = {"id": id,"titoli_univoci": "","documento" : documento,"allegati":allegati,"servizio" : servizio}
+        
+        docs.write(json.dumps(single_doc, indent=4))
         
         try:
             os.chdir("..")
@@ -158,25 +169,35 @@ class Scraper:
     def scraping(self, path_json):
         with open(path_json, encoding='raw_unicode_escape') as indice_file:
             tmp = indice_file.read().encode('raw_unicode_escape').decode()
-            indice = json.loads(tmp            )
+            indice = json.loads(tmp)
             id = 1
-            for titolo, url in indice.items():
-                t = self.clean_title(titolo)
-                print("TITOLO: "+ t + " URL:" + url)
-
-                r = requests.get(url) 
-                if(r.status_code != 200):
-                    print("Errore"+str(r.status_code))
-                    time.sleep(20)
-                soup = BeautifulSoup(r.content, 'html.parser')
-                html = self.save_html(str(soup), t) 
-                print(html)
-                # try:
-                self.scrape_page(html, str(id))
-                # except:
-                    # print("Errore in scrape_page o in save_html alla pagina : '"+str(id)+"'")
-                id+=1
-                time.sleep(2)
+            with open("./docs.json", "w") as docs:
+                docs.write("[\n")
+                items = indice.items()
+                for titolo, url in items:
+                    t = self.clean_title(titolo)
+                    print("TITOLO: "+ t + " URL:" + url)
+                    r = requests.get(url) 
+                    if(r.status_code != 200):
+                        print("Errore"+str(r.status_code))
+                        time.sleep(20)
+                    soup = BeautifulSoup(r.content, 'html.parser')
+                    html = self.save_html(str(soup), t) 
+                    print(html)
+                    try:
+                        self.scrape_page(html, str(id), docs)
+                    except:
+                        print("Errore in scrape_page o in save_html alla pagina : '"+str(id)+"'")
+                        with open("./logs.txt", "a") as flog:
+                            flog.write("Errore in scrape_page o in save_html alla pagina : '"+str(id)+"'"+ html+ "\n")
+                        flog.close()
+                    id+=1
+                    if id <= len(items):
+                        docs.write(",\n")
+                    time.sleep(2)
+                    
+                docs.write("\n]")
+            docs.close()
  
 
 url_home = ""
@@ -185,6 +206,8 @@ scraper = Scraper(url_home)
 path_json = "./html/index.json"
 # scraper.create_index(path_json) #working
 page = "D:\\a università\\terzo anno\\secondo semestre\\Sistemi ad agenti\\psychic-octo-system\\Utils\\html\\PaginaCAMBIODESTINAZIONEDUSODIIMMOBILE_RICHIESTADELPERM.html"
-page = "D:\\a università\\terzo anno\\secondo semestre\\Sistemi ad agenti\\psychic-octo-system\\Utils\\html\\PaginaCERTIFICATODIDESTINAZIONEDUSODIIMMOBILE.html"
-scraper.scrape_page(page,"10")
-# scraper.scraping(path_json)
+
+page = "D:\\a università\\terzo anno\\secondo semestre\\Sistemi ad agenti\\psychic-octo-system\\Utils\\html\\PaginaRICHIESTADIRIMBORSOIMU-TASI-ICI.html"
+#scraper.scrape_page(page,"10")
+
+scraper.scraping(path_json) #working
