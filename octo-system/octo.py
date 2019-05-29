@@ -11,23 +11,6 @@ from nltk.stem.lancaster import LancasterStemmer
 import json
 import tflearn
 
-'''
-training_data = []
-training_data.append({"class":"greeting", "sentence":"how are you?"})
-training_data.append({"class":"greeting", "sentence":"how is your day?"})
-training_data.append({"class":"greeting", "sentence":"good day"})
-training_data.append({"class":"greeting", "sentence":"how is it going today?"})
-
-training_data.append({"class":"goodbye", "sentence":"have a nice day"})
-training_data.append({"class":"goodbye", "sentence":"see you later"})
-training_data.append({"class":"goodbye", "sentence":"have a nice day"})
-training_data.append({"class":"goodbye", "sentence":"talk to you soon"})
-
-training_data.append({"class":"sandwich", "sentence":"make me a sandwich"})
-training_data.append({"class":"sandwich", "sentence":"can you make a sandwich?"})
-training_data.append({"class":"sandwich", "sentence":"having a sandwich today?"})
-training_data.append({"class":"sandwich", "sentence":"what s for lunch?"})
-'''
 
 training_data = []
 
@@ -38,8 +21,6 @@ with open("/home/phinkie/Scrivania/psychic-octo-system/dataUtils/docTag.json","r
         data["Titolo"] = row["titoli_univoci"].split('|')
         data["id"] = row["id"]
         training_data.append(data)
-
-
 
 documents = []
 classes = []
