@@ -22,6 +22,9 @@ with open("/home/phinkie/Scrivania/psychic-octo-system/dataUtils/docTag.json","r
         data["id"] = row["id"]
         training_data.append(data)
 
+
+
+
 documents = []
 classes = []
 words = set()
@@ -44,11 +47,6 @@ for p in training_data:
                 classes.append(p[class_index])
 
 
-vocab_size = len(words)
-training = []
-
-output_empty = [0] * len(classes)
-output = []
 
 
 def bow(sentence, words, show_details=False):
@@ -69,6 +67,10 @@ def bow(sentence, words, show_details=False):
 
         return bag
 
+training = []
+output_empty = [0] * len(classes)
+output = []
+
 for doc in documents:
         bag = []
         pw = doc[0]
@@ -84,15 +86,18 @@ for doc in documents:
         output_row[classes.index(doc[1])] = 1
         output.append(output_row)
 
+
+
 train_x = np.array(training)
 train_y = np.array(output)
 
-'''
-print(train_x)
-print(train_y)
 print(len(train_y[0]))
-'''
 
+
+#print(train_x)
+#print(train_y)
+
+'''
 
 
 
@@ -131,7 +136,7 @@ reverse_array = sorted_array[::-1]
 
 print(classes[np.argmax(pred)]) # + " Prob: \t" + str(pred))
 print(reverse_array[:3])
-'''
+
 pred = model.predict(bow("rit civil",words)) #3
 print(classes[np.argmax(pred)]) #+ " Prob: \t" + str(pred))
 
