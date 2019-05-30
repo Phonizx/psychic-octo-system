@@ -107,7 +107,7 @@ net = tflearn.regression(net)
 model = tflearn.DNN(net, tensorboard_dir='tflearn_logs')
 # Start training (apply gradient descent algorithm)
 model.fit(train_x, train_y, n_epoch=1000, batch_size=50, show_metric=True)
-
+#model.save('model.tflearn')
 def bow(sentence, words, show_details=False):
         # tokenize the pattern
         sentence_words = sentence.replace("!","").split(' ')
@@ -126,10 +126,15 @@ def bow(sentence, words, show_details=False):
         return bag
 
 pred = model.predict(bow("mortal concession",words)) #2
-print(classes[np.argmax(pred)]) # + " Prob: \t" + str(pred))
+sorted_array = np.sort(pred)
+reverse_array = sorted_array[::-1]
 
+print(classes[np.argmax(pred)]) # + " Prob: \t" + str(pred))
+print(reverse_array[:3])
+'''
 pred = model.predict(bow("rit civil",words)) #3
 print(classes[np.argmax(pred)]) #+ " Prob: \t" + str(pred))
 
 #print(classes[np.argmax(model.predict(bow("talk to you yolo",words)))])
 #print(classes[np.argmax(model.predict(bow("can you make",words)))])
+'''
