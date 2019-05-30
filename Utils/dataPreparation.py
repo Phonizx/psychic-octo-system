@@ -3,6 +3,7 @@ import numpy as np
 
 
 class dataPrepare:
+
     training_data = []
     documents = []
     classes = []
@@ -10,11 +11,7 @@ class dataPrepare:
 
     class_index = 'id'
     sentence_index = 'Titolo'
-
     vocab_size = 0
-
-    #train_x = np.array()
-    #train_y = np.array()
 
     def __init__(self,path): #path documento del
         self.path = path
@@ -70,13 +67,21 @@ class dataPrepare:
 
 
     def save_ds(self,savePath):
+        lobj = []
+        lobj.append(list(self.words))
+        lobj.append(self.vocab_size)
+        lobj.append(self.classes)
+        
+        wordsFile = open(savePath + "words.json", "w")
+        wordsFile.write(json.dumps(lobj))
+        wordsFile.close()
         try:
             np.save(savePath + "train_x" ,self.train_x)
             np.save(savePath + "train_y" ,self.train_y)
             print("Train_x and Train_y are stored in: " + savePath)
         except:
             print("Stored error in " + savePath)
-            
+
 prepare = dataPrepare("/home/phinkie/Scrivania/psychic-octo-system/dataUtils/docTag.json")
 prepare.processing_data()
 prepare.save_ds("/home/phinkie/Scrivania/psychic-octo-system/dataUtils/")
