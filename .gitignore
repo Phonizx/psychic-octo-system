@@ -2,5 +2,3 @@
 *.txt
 *.html
 data/
-*.npy
-*.json
