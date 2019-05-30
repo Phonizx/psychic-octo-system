@@ -28,7 +28,7 @@ class predictor:
             self.documents = json.load(docFile)
 
 
-    def bow(self,sentence, show_details=False):
+    def bow(self,sentence): #da  stemmatizzare , eliminare le stopwords e la punteggiatura
         # tokenize the pattern
         sentence_words = sentence.replace("!","").split(' ')
          # bag of words
@@ -55,14 +55,15 @@ class predictor:
         #Outpu Layer con fn. activation softmax
         net = tflearn.fully_connected(net, output_dim, activation='softmax')
         net = tflearn.regression(net)
-        model = tflearn.DNN(net, tensorboard_dir='tflearn_logs')
+        self.model = tflearn.DNN(net, tensorboard_dir='tflearn_logs')
 
-        model.load(model_path)
-        return model
+        self.model.load(model_path)
+        return self.model
 
+    def prediction(self,sentence):
+        classDocument = self.classes[np.argmax(self.model.predict(pred.bow(sentence)))]
+        return self.getdocumentById(classDocument)
 
 pred = predictor("/home/phinkie/Scrivania/psychic-octo-system/dataUtils/")
-model = pred.restore_model("/home/phinkie/Scrivania/psychic-octo-system/Models/05-30|16:51/model.tflearn",561,240)
-cls = pred.get_classes()
-d = pred.getdocumentById(cls[np.argmax(model.predict(pred.bow("mortal concession")))])
-print(d)
+model = pred.restore_model("/home/phinkie/Scrivania/psychic-octo-system/Models/05-30|17:38/model.tflearn",561,240) #vocabSize, lenClasses
+print(pred.prediction("mortal concession"))

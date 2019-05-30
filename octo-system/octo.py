@@ -11,6 +11,7 @@ import tflearn
 import datetime
 
 class Training:
+
     def __init__(self,path):
         self.path = path
         self.load_trainingset()
@@ -18,9 +19,7 @@ class Training:
     def load_trainingset(self):
         self.train_x = np.load(self.path + "train_x.npy")
         self.train_y = np.load(self.path + "train_y.npy")
-
-
-
+        self.create_model()
 
     #linear classificator
     def create_model(self):
@@ -33,16 +32,16 @@ class Training:
         #Outpu Layer con fn. activation softmax
         net = tflearn.fully_connected(net, len(self.train_y[0]), activation='softmax')
         net = tflearn.regression(net)
-        model = tflearn.DNN(net, tensorboard_dir='tflearn_logs')
-        return model
+        self.model = tflearn.DNN(net, tensorboard_dir='tflearn_logs')
+        return self.model
 
-    def training(self):
-        model = self.create_model()
-        model.fit(self.train_x, self.train_y, n_epoch=1000, batch_size=50, show_metric=True)
-        print("Save model? ")
+    def training(self,epochs = 1000):
+        #model = self.create_model()
+        self.model.fit(self.train_x, self.train_y, n_epoch=epochs, batch_size=50, show_metric=True)
+        print("Save model? (n or y): ")
         res = input()
         if(res == 'y'):
-            self.save_model(model)
+            self.save_model(self.model)
 
     def save_model(self,model):
          save_path = "/home/phinkie/Scrivania/psychic-octo-system/Models/"
@@ -54,18 +53,3 @@ class Training:
 
 mod = Training("/home/phinkie/Scrivania/psychic-octo-system/dataUtils/")
 mod.training()
-
-
-#pred = model.predict(bow("mortal concession",words)) #2
-
-#sorted_array = np.sort(pred)
-#reverse_array = sorted_array[::-1]
-
-#print(classes[np.argmax(pred)]) # + " Prob: \t" + str(pred))
-#print(reverse_array[:3])
-
-#pred = model.predict(bow("rit civil",words)) #3
-#print(classes[np.argmax(pred)]) #+ " Prob: \t" + str(pred))
-
-#print(classes[np.argmax(model.predict(bow("talk to you yolo",words)))])
-#print(classes[np.argmax(model.predict(bow("can you make",words)))])
