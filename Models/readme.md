@@ -1,1 +1,0 @@
-<b>modelli migliori</b>

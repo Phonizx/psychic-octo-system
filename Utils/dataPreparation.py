@@ -70,11 +70,16 @@ class dataPrepare:
         lobj = []
         lobj.append(list(self.words))
         lobj.append(self.vocab_size)
-        lobj.append(self.classes)
-        
+
+
         wordsFile = open(savePath + "words.json", "w")
         wordsFile.write(json.dumps(lobj))
         wordsFile.close()
+
+        #salvataggio a parte delle classi 
+        classFile = open(savePath + "classes.json","w")
+        classFile.write(json.dumps(self.classes))
+        classFile.close()
         try:
             np.save(savePath + "train_x" ,self.train_x)
             np.save(savePath + "train_y" ,self.train_y)

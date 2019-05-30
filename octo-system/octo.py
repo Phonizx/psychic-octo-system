@@ -8,7 +8,7 @@ import nltk
 #from nltk.stemlancaster import LancasterStemmer
 import json
 import tflearn
-
+import datetime
 
 class Training:
     def __init__(self,path):
@@ -16,31 +16,11 @@ class Training:
         self.load_trainingset()
 
     def load_trainingset(self):
-        with open(self.path + "words.json","r") as filewords:
-            fw =  json.load(filewords)
-            self.words = fw[0]
-            self.vocab_size = fw[1]
-            self.classes = fw[2]
         self.train_x = np.load(self.path + "train_x.npy")
         self.train_y = np.load(self.path + "train_y.npy")
 
 
-    def bow(self,sentence, words, show_details=False):
-        # tokenize the pattern
-        sentence_words = sentence.replace("!","").split(' ')
-         # bag of words
-        bag = [0]*len(words)
-        i=0
-        for s in sentence_words:
-            #w = stemmer.stem(s)
-            if(s in words):
-                    for i,w in enumerate(words):
-                            if w == s:
-                                    bag[i] = 1
-        bag = np.array([bag])
-        bag = bag.astype(np.float32)
 
-        return bag
 
     #linear classificator
     def create_model(self):
@@ -62,12 +42,15 @@ class Training:
         print("Save model? ")
         res = input()
         if(res == 'y'):
-            model.save('model.tflearn')
-            print("Model stored in current path.")
-        
+            self.save_model(model)
 
-
-
+    def save_model(self,model):
+         save_path = "/home/phinkie/Scrivania/psychic-octo-system/Models/"
+         dir = datetime.datetime.now().strftime('%m-%d|%H:%M')
+         save_path += dir
+         os.makedirs(save_path)
+         model.save(save_path + '/model.tflearn')
+         print("Model stored in: " + save_path)
 
 mod = Training("/home/phinkie/Scrivania/psychic-octo-system/dataUtils/")
 mod.training()
