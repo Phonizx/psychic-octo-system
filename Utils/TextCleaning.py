@@ -28,7 +28,7 @@ class TextPreparation:
         self.stemmer = nltk.stem.snowball.ItalianStemmer()
 
     def no_punctuation(self,sentence): #erase puncts
-        sentence = sentence.translate({ord(c) : '' for c in self.puncts})
+        sentence = sentence.translate({ord(c) : ' ' for c in self.puncts})
         return sentence
 
     def load_stopWord(self,path):
@@ -128,7 +128,7 @@ class TextPreparation:
         print("Documenti senza tag: " + str(empty))
         print(doc_empty)
 
-    
+
         tag_file = open("/home/phinkie/Scrivania/psychic-octo-system/dataUtils/docTag.json","w")
         tag_file.write(json.dumps(document_tag,indent=4))
         tag_file.close()
@@ -137,7 +137,10 @@ class TextPreparation:
 
 
 tp = TextPreparation("/home/phinkie/Scrivania/psychic-octo-system/data/")
+print(tp.prepare_sentence("ciao:testo"))
+'''
 tp.load_stopWord("/home/phinkie/Scrivania/psychic-octo-system/dataUtils/stop_words.txt") #path
 #tp.prepare_texts()
 
 tp.labelling("/home/phinkie/Scrivania/psychic-octo-system/data/docs.json")
+'''
