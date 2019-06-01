@@ -25,6 +25,7 @@ class TextPreparation:
     def __init__(self,path):
         self.path = path
         #self.stemmer = SnowballStemmer("italian")
+
         self.stemmer = nltk.stem.snowball.ItalianStemmer()
 
     def no_punctuation(self,sentence): #erase puncts
@@ -41,24 +42,7 @@ class TextPreparation:
                     i += 1
         print("Stop Words loaded.")
 
-    def build_dicts(self):
-        if(self.vocab_size > 0):
-            for i,word in enumerate(self.unique_words):
-                self.word2int[word] = i
-                self.int2word[i] = word
-        self.save_dicts()
-
-    def save_dicts(self):
-
-        dizionari = []
-        dizionari.append(self.word2int)
-        dizionari.append(self.int2word)
-        dizionari.append(self.vocab_size)
-
-        dict_file = open(self.path + "/dizionari.json", "w")
-        dict_file.write(json.dumps(dizionari))
-        dict_file.close()
-        print("Data writed in: " + self.path + "dizionari.json")
+    
 
     def prepare_sentence(self, sentence):
         new_sent = []
@@ -100,6 +84,7 @@ class TextPreparation:
         return data
 
     def labelling(self,pathdoc):
+
         with open(pathdoc,"r") as ds:
                 doc = json.load(ds)
         empty = 0
@@ -132,15 +117,70 @@ class TextPreparation:
         tag_file = open("/home/phinkie/Scrivania/psychic-octo-system/dataUtils/docTag.json","w")
         tag_file.write(json.dumps(document_tag,indent=4))
         tag_file.close()
-
             #self.split_inWindow(2,title)
 
 
+    def correctWords(self, s):
+
+        s = re.sub(r'(\\u00c3\\u00a0)|(\\u00c3\\u0080)', 'à', s)
+        s = re.sub(r'(\\u00c3\\u00a8)|(\\u00c3\\u00a9)', 'è', s)
+        s = re.sub(r'\\u00c3\\u0088', 'E\'', s)
+        s = re.sub(r'\\u00c3\\u00ac', 'ì', s)
+        s = re.sub(r'\\u00c3\\u00b2', 'ò', s)
+        s = re.sub(r'(\\u00c3\\u00b9)|(\\u00c3\\u0099)', 'ù', s)
+        s = re.sub(r'\\u00c2\\u00b0', '°', s)
+        s = re.sub(r'\\u00c2\\u00aa', 'a', s)  #primo
+        s = re.sub(r'(\\u00e2\\u0080\\u0098)|(\\u00e2\\u0080\\u0093)|(\\u00e2\\u0080\\u0099)|(\\u00e2\\u0080\\u009c)|(\\u00e2\\u0080\\u009d)|(\\u00c2\\u00ab)|(\\u00c2\\u00bb)','\'', s)  
+        s = re.sub(r'\\u00e2\\u0082\\u00ac', 'euro', s)
+        s = re.sub(r'(\\u00c2\\u00a0)|(\\u00e2\\u0080\\u00a2)', ' ', s) 
+        s = re.sub(r'\\u00e2\\u0080\\u00a6' ,'.', s)
+        return s
+    def correctDocs(self, path):
+       
+        with open(path+"docs1.json", "w") as docsw: 
+            with open(path+"docs.json", "r") as docsr:
+                for line in docsr:
+                    docsw.write(self.correctWords(line))
+            docsr.close()
+        docsw.close()
+
+        with open(path+"docs.json", "w") as docsw: 
+            with open(path+"docs1.json", "r") as docsr:
+                for line in docsr:
+                    docsw.write(self.correctWords(line))
+            docsr.close()
+        docsw.close()
+
+        try:
+            os.remove(path+"docs1.json")
+        except:
+            print("",end="")
+
+
+     
+path = "C:\\Nuova cartella\\psychic-octo-system\\dataUtils\\"
+t = TextPreparation(path)
+t.correctDocs(path)
+
 tp = TextPreparation("/home/phinkie/Scrivania/psychic-octo-system/data/")
 print(tp.prepare_sentence("ciao:testo"))
+
+tp.load_stopWord("/home/phinkie/Scrivania/psychic-octo-system/dataUtils/stop_words.txt") #path
+#tp.prepare_texts()
+
+tp.labelling("/home/phinkie/Scrivania/psychic-octo-system/data/docs.json")
+
+
 '''
+tp = TextPreparation("/home/phinkie/Scrivania/psychic-octo-system/data/")
+print(tp.prepare_sentence("ciao:testo"))
+
 tp.load_stopWord("/home/phinkie/Scrivania/psychic-octo-system/dataUtils/stop_words.txt") #path
 #tp.prepare_texts()
 
 tp.labelling("/home/phinkie/Scrivania/psychic-octo-system/data/docs.json")
 '''
+
+    
+
+ 
