@@ -42,7 +42,7 @@ class TextPreparation:
                     i += 1
         print("Stop Words loaded.")
 
-    
+
 
     def prepare_sentence(self, sentence):
         new_sent = []
@@ -114,7 +114,7 @@ class TextPreparation:
         print(doc_empty)
 
 
-        tag_file = open("/home/phinkie/Scrivania/psychic-octo-system/dataUtils/docTag.json","w")
+        tag_file = open("/home/phinkie/Scrivania/psychic-octo-system/dataUtils/docTag01.json","w")
         tag_file.write(json.dumps(document_tag,indent=4))
         tag_file.close()
             #self.split_inWindow(2,title)
@@ -130,21 +130,22 @@ class TextPreparation:
         s = re.sub(r'(\\u00c3\\u00b9)|(\\u00c3\\u0099)', 'ù', s)
         s = re.sub(r'\\u00c2\\u00b0', '°', s)
         s = re.sub(r'\\u00c2\\u00aa', 'a', s)  #primo
-        s = re.sub(r'(\\u00e2\\u0080\\u0098)|(\\u00e2\\u0080\\u0093)|(\\u00e2\\u0080\\u0099)|(\\u00e2\\u0080\\u009c)|(\\u00e2\\u0080\\u009d)|(\\u00c2\\u00ab)|(\\u00c2\\u00bb)','\'', s)  
+        s = re.sub(r'(\\u00e2\\u0080\\u0098)|(\\u00e2\\u0080\\u0093)|(\\u00e2\\u0080\\u0099)|(\\u00e2\\u0080\\u009c)|(\\u00e2\\u0080\\u009d)|(\\u00c2\\u00ab)|(\\u00c2\\u00bb)','\'', s)
         s = re.sub(r'\\u00e2\\u0082\\u00ac', 'euro', s)
-        s = re.sub(r'(\\u00c2\\u00a0)|(\\u00e2\\u0080\\u00a2)', ' ', s) 
+        s = re.sub(r'(\\u00c2\\u00a0)|(\\u00e2\\u0080\\u00a2)', ' ', s)
         s = re.sub(r'\\u00e2\\u0080\\u00a6' ,'.', s)
         return s
+
     def correctDocs(self, path):
-       
-        with open(path+"docs1.json", "w") as docsw: 
+
+        with open(path+"docs.json", "w") as docsw:
             with open(path+"docs.json", "r") as docsr:
                 for line in docsr:
                     docsw.write(self.correctWords(line))
             docsr.close()
         docsw.close()
 
-        with open(path+"docs.json", "w") as docsw: 
+        with open(path+"docs.json", "w") as docsw:
             with open(path+"docs1.json", "r") as docsr:
                 for line in docsr:
                     docsw.write(self.correctWords(line))
@@ -157,30 +158,14 @@ class TextPreparation:
             print("",end="")
 
 
-     
-path = "C:\\Nuova cartella\\psychic-octo-system\\dataUtils\\"
+
+path = "/home/phinkie/Scrivania/psychic-octo-system/data/"
 t = TextPreparation(path)
-t.correctDocs(path)
+#t.correctDocs(path)
 
-tp = TextPreparation("/home/phinkie/Scrivania/psychic-octo-system/data/")
-print(tp.prepare_sentence("ciao:testo"))
 
-tp.load_stopWord("/home/phinkie/Scrivania/psychic-octo-system/dataUtils/stop_words.txt") #path
+
+t.load_stopWord("/home/phinkie/Scrivania/psychic-octo-system/dataUtils/stop_words.txt") #path
 #tp.prepare_texts()
 
-tp.labelling("/home/phinkie/Scrivania/psychic-octo-system/data/docs.json")
-
-
-'''
-tp = TextPreparation("/home/phinkie/Scrivania/psychic-octo-system/data/")
-print(tp.prepare_sentence("ciao:testo"))
-
-tp.load_stopWord("/home/phinkie/Scrivania/psychic-octo-system/dataUtils/stop_words.txt") #path
-#tp.prepare_texts()
-
-tp.labelling("/home/phinkie/Scrivania/psychic-octo-system/data/docs.json")
-'''
-
-    
-
- 
+t.labelling("/home/phinkie/Scrivania/psychic-octo-system/data/docs.json")

@@ -52,4 +52,4 @@ class Training:
          print("Model stored in: " + save_path)
 
 mod = Training("/home/phinkie/Scrivania/psychic-octo-system/dataUtils/")
-mod.training()
+mod.training(2000)

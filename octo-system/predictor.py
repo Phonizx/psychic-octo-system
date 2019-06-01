@@ -63,7 +63,7 @@ class predictor:
     def prediction(self,sentence):
         classDocument = self.classes[np.argmax(self.model.predict(pred.bow(sentence)))]
         return self.getdocumentById(classDocument)
-
+#/home/phinkie/Scrivania/psychic-octo-system/Models/05-30|17:38/model.tflearn model bk 
 pred = predictor("/home/phinkie/Scrivania/psychic-octo-system/dataUtils/")
 model = pred.restore_model("/home/phinkie/Scrivania/psychic-octo-system/Models/05-30|17:38/model.tflearn",561,240) #vocabSize, lenClasses
 print(pred.prediction("mortal concession"))
