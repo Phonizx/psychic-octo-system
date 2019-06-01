@@ -10,7 +10,7 @@ from pymongo import MongoClient
 app = Flask(__name__)
 
 
-client = MongoClient("128028d9c08b",27017)
+client = MongoClient("127.0.0.1",27017)
 db = client.docDb
 
 
@@ -42,24 +42,6 @@ def tester():
     if(request.method == 'GET'):
         data = request.args.get('Text')
         return render_template('index.html', context="Kitestramurt" + data)
-
-
-'''
-@app.route("/create")
-def home():
-    doc = {
-        'Id' : 999,
-        'Documento' : "test documento su mongodb",
-        "Allegati" : "url allegati",
-        "Servzio" : "url servizio",
-        "Titoli_univoci": "Tag documento"
-    }
-    db.docDb.insert_one(doc)
-
-
-'''
-
-
 
 
 
