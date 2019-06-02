@@ -16,8 +16,10 @@ model = None
 
 @app.route("/")
 def home():
-    pred = predictor("/home/phinkie/Scrivania/psychic-octo-system/dataUtils/")
-    model = pred.restore_model("/home/phinkie/Scrivania/psychic-octo-system/Models/0601 080/model.tflearn",554,240)
+    path = "C:\\Nuova cartella\\psychic-octo-system\\"
+    pred = predictor(path+"dataUtils\\")#("/home/phinkie/Scrivania/psychic-octo-system/dataUtils/")
+#"/home/phinkie/Scrivania/psychic-octo-system/
+    model = pred.restore_model(path+"Models\\0601 080\\model.tflearn",554,240)
     return "Model caricato !"
 
 
