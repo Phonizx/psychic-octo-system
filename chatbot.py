@@ -29,8 +29,7 @@ def home():
     cleaning.load_stopWord(path+"dataUtils\\stop_words.txt") #paths
     #"/home/phinkie/Scrivania/tes/psychic-octo-system/
     pred.restore_model(path+"Models\\0601 080\\model.tflearn",554,240)
-
-    return  "Model: ok"
+    return render_template('index.html', context="") #"Model: ok"
     '''
     pred = predictor(path+"dataUtils\\")#("/home/phinkie/Scrivania/psychic-octo-system/dataUtils/")
     #"/home/phinkie/Scrivania/psychic-octo-system/
@@ -40,8 +39,7 @@ def home():
 
 
 @app.route("/getDocuments/<richiesta>", methods=['GET'])
-def getDocuments(richiesta):
-    
+def getDocuments(richiesta):    
     domanda = cleaning.prepare_sentence(richiesta)
     processed = " ".join(domanda)
     id_docs = pred.prediction(processed) # 3 documenti piu probabili    
