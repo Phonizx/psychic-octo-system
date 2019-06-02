@@ -1,4 +1,6 @@
 import os
+import json
+import numpy as np
 
 from flask import Flask
 from flask import request
@@ -9,6 +11,7 @@ from pymongo import MongoClient
 
 from octosystem import predictor
 from Utils import TextPreparation
+from flask import jsonify
 
 
 app = Flask(__name__)
@@ -16,12 +19,14 @@ app = Flask(__name__)
 
 pred = predictor("/home/phinkie/Scrivania/psychic-octo-system/dataUtils/")
 cleaning = TextPreparation('')
+documenti = pred.get_documents()
+
 
 @app.route("/") #da sistemare
 def home():
     cleaning.load_stopWord("/home/phinkie/Scrivania/psychic-octo-system/dataUtils/stop_words.txt") #paths
     pred.restore_model("/home/phinkie/Scrivania/tes/psychic-octo-system/Models/0601 080/model.tflearn",554,240)
-    documenti = pred.get_documents()
+
     return  "Model: ok"
     '''
     path = "C:\\Nuova cartella\\psychic-octo-system\\"
@@ -32,17 +37,19 @@ def home():
     '''
 
 
+@app.route("/getDocuments/<richiesta>",methods=['GET'])
+def getDocuments(richiesta):
+    domanda = cleaning.prepare_sentence(richiesta)
+    processed = " ".join(domanda)
+    id_docs = pred.prediction(processed) # 3 documenti piu probabili
+    return json.dumps(id_docs)
+
 @app.route("/Domanda",methods=['GET'])
 def domanda():
     domanda = request.args.get('richiesta')
-    domanda = cleaning.prepare_sentence(domanda)
-    processed = " ".join(domanda)
-
-    id_docs = pred.prediction(processed) # 3 documenti piu probabili
-
-    resp = documenti[id_docs[0]]["documento"]
-    return render_template('index.html', context=resp)
-
+    docs = getDocuments(domanda)
+    resp = documenti[int(docs[0])]["documento"]
+    return render_template('index.html', context=resp + str(docs))
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0',debug=True)
