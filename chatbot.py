@@ -31,6 +31,7 @@ def home():
 def tester():
     if(request.method == 'GET'):
         data = request.args.get('Text')
+
         return render_template('index.html', context="Kitestramurt" + data)
 
 

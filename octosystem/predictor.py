@@ -26,8 +26,8 @@ class predictor:
 
         with open(self.path + "docTag.json") as docFile:
             self.documents = json.load(docFile)
-
-
+    def get_documents(self):
+        return self.documents
     def bow(self,sentence): #da  stemmatizzare , eliminare le stopwords e la punteggiatura
         # tokenize the pattern
         sentence_words = sentence.replace("!","").split(' ')
