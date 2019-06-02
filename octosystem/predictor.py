@@ -17,7 +17,7 @@ class predictor:
 
     def getdocumentById(self, id):
         return self.documents[int(id)-1]["documento"]
-
+    
     def load_data(self):
         with open(self.path + "words.json") as wordsFile:
             wf = json.load(wordsFile)
