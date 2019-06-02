@@ -58,19 +58,15 @@ def domanda():
 
 @app.route("/servizio", methods=['GET'])
 def servizio():
-    domanda = request.args.get('richiesta')
-    docus = getDocuments(domanda) #[doc0, doc1, doc2]
-    docs = json.loads(docus)
-    contenuto = "".join([d["servizio"]+"\n" for d in docs])
+    id = request.args.get('id_doc')
+    contenuto = documenti[int(id)]["servizio"]
     return render_template('index.html', context=contenuto)
 
 @app.route("/allegati", methods=['GET'])
 def allegati():
-    domanda = request.args.get('richiesta')
-    docus = getDocuments(domanda) #[doc0, doc1, doc2]
-    docs = json.loads(docus)
-    links = [d["allegati"] for d in docs]
-    contenuto = "".join([str(link)+"\n\n\n\n\n" for link in links])
+    id = request.args.get('id_doc')
+    contenuto = documenti[int(id)]["allegati"]
+    contenuto = "".join([str(link)+"\n\n\n\n\n" for link in contenuto])
     return render_template('index.html', context=contenuto)
 
 if __name__ == "__main__":
