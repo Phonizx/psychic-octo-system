@@ -158,7 +158,7 @@ class TextPreparation:
             print("",end="")
 
 
-
+'''
 path = "/home/phinkie/Scrivania/psychic-octo-system/data/"
 t = TextPreparation(path)
 #t.correctDocs(path)
@@ -169,3 +169,4 @@ t.load_stopWord("/home/phinkie/Scrivania/psychic-octo-system/dataUtils/stop_word
 #tp.prepare_texts()
 
 t.labelling("/home/phinkie/Scrivania/psychic-octo-system/data/docs.json")
+'''

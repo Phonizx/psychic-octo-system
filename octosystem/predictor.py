@@ -17,7 +17,7 @@ class predictor:
 
     def getdocumentById(self, id):
         return self.documents[int(id)-1]["documento"]
-    
+
     def load_data(self):
         with open(self.path + "words.json") as wordsFile:
             wf = json.load(wordsFile)
@@ -26,8 +26,10 @@ class predictor:
 
         with open(self.path + "docTag.json") as docFile:
             self.documents = json.load(docFile)
-    def get_documents(self):
+
+    def get_documents(self): #return all documents 
         return self.documents
+
     def bow(self,sentence): #da  stemmatizzare , eliminare le stopwords e la punteggiatura
         # tokenize the pattern
         sentence_words = sentence.replace("!","").split(' ')
