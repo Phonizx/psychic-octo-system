@@ -113,8 +113,8 @@ class TextPreparation:
         print("Documenti senza tag: " + str(empty))
         print(doc_empty)
 
-
-        tag_file = open("/home/phinkie/Scrivania/psychic-octo-system/dataUtils/docTag01.json","w")
+        filetags = self.path +"dataUtils\\docTag01.json"
+        tag_file = open(filetags,"w")
         tag_file.write(json.dumps(document_tag,indent=4))
         tag_file.close()
             #self.split_inWindow(2,title)
