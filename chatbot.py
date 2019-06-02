@@ -15,29 +15,27 @@ from flask import jsonify
 
 
 app = Flask(__name__)
-# TODO: utilizzare path relativo
+
+#SigSky
 #pred = predictor("C:\\Nuova cartella\\psychic-octo-system\\dataUtils\\")
 #cleaning = TextPreparation("C:\\Nuova cartella\\psychic-octo-system\\")
 
+#phonix
 pred = predictor("/home/phinkie/Scrivania/tes/psychic-octo-system/dataUtils/")
 cleaning = TextPreparation("/home/phinkie/Scrivania/tes/psychic-octo-system/")
 
-documenti = pred.get_documents()
+documenti = None
 
 
 @app.route("/") #da sistemare
 def home():
 
-    #cleaning.load_stopWord("C:\\Nuova cartella\\psychic-octo-system\\dataUtils\\stop_words.txt") #paths
-    #pred.restore_model("C:\\Nuova cartella\\psychic-octo-system\\Models\\0601 080\\model.tflearn",554,240)
 
-    pred.restore_model("/home/phinkie/Scrivania/tes/psychic-octo-system/Models/0601 080/model.tflearn",554,240)
-    cleaning.load_stopWord("/home/phinkie/Scrivania/psychic-octo-system/dataUtils/stop_words.txt")
 
     return render_template('index.html', context="") #"Model: ok"
 
 
-@app.route("/getDocuments/<richiesta>", methods=['GET'])
+@app.route("/getDocuments/<richiesta>", methods=['GET']) #da sistemare
 def getDocuments(richiesta):
     domanda = cleaning.prepare_sentence(richiesta)
     processed = " ".join(domanda)
@@ -70,4 +68,12 @@ def allegati():
     return render_template('index.html', context=contenuto)
 
 if __name__ == "__main__":
+    #SigSky
+    #cleaning.load_stopWord("C:\\Nuova cartella\\psychic-octo-system\\dataUtils\\stop_words.txt") #paths
+    #pred.restore_model("C:\\Nuova cartella\\psychic-octo-system\\Models\\0601 080\\model.tflearn",554,240)
+
+    #phonix
+    pred.restore_model("/home/phinkie/Scrivania/tes/psychic-octo-system/Models/0601 080/model.tflearn",554,240)
+    cleaning.load_stopWord("/home/phinkie/Scrivania/psychic-octo-system/dataUtils/stop_words.txt")
+    documenti = pred.get_documents()
     app.run(host='0.0.0.0',debug=True)

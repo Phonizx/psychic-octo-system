@@ -25,24 +25,9 @@
                 <div class="panel panel-info">
                     <div class="panel-footer">
                         <div class="input-group">
-
                             <form action="http://127.0.0.1:5000/domanda" method="get"><br>
                                 <input type="text" name="richiesta" id="richiesta" class="form-control"
                                     placeholder="Effettuare una richesta" />
-                                <span class="input-group-btn">
-                                    <input type="submit" class="btn btn-info" type="button"></button>
-                                </span>
-                            </form>
-                            <form action="http://127.0.0.1:5000/servizio" method="get"><br>
-                                <input type="text" name="richiesta" id="richiesta" class="form-control"
-                                    placeholder="Richiedere un servizio" />
-                                <span class="input-group-btn">
-                                    <input type="submit" class="btn btn-info" type="button"></button>
-                                </span>
-                            </form>
-                            <form action="http://127.0.0.1:5000/allegati" method="get"><br>
-                                <input type="text" name="richiesta" id="richiesta" class="form-control"
-                                    placeholder="Richiedere un allegato" />
                                 <span class="input-group-btn">
                                     <input type="submit" class="btn btn-info" type="button"></button>
                                 </span>
@@ -65,6 +50,24 @@
                                             <div>
                                                 {{context}}
                                             </div>
+
+                                            <div style="display: flex;">
+                                            <form action="http://127.0.0.1:5000/allegati" method="get" style="float:left;"><br>
+                                                <span class="input-group-btn">
+                                                    <input name="id_doc" type="hidden" value="2" id="id_doc">
+                                                    <input type="submit" value="Allegati" class="btn btn-info" type="button"></button>
+                                                </span>
+                                            </form>
+
+                                            <form action="http://127.0.0.1:5000/servizio" method="get" style="float:right;"><br>
+                                                <span class="input-group-btn">
+                                                    <input name="id_doc" type="hidden" value="2" id="id_doc">
+                                                    <input type="submit" value="Vai al Servizio" class="btn btn-info" type="button"></button>
+                                                </span>
+                                            </form>
+
+
+                                          </div>
                                             <br />
                                             <small class="text-muted">Antonio Decaro | 23rd June at 5:00pm</small>
                                             <hr />
