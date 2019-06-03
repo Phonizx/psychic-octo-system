@@ -39,9 +39,16 @@ def home():
 def getDocuments(richiesta):
     domanda = cleaning.prepare_sentence(richiesta)
     processed = " ".join(domanda)
+    resp = [] #json objects
+
     id_docs = pred.prediction(processed) # 3 documenti piu probabili
-    docs =  [documenti[i] for i in id_docs]
-    tmp = json.dumps(docs, indent=4)
+
+    documents = documenti[id_docs[0]]
+    resp.append(documents)
+    ids = [int(item) for item in id_docs]
+    resp.append(ids)
+
+    tmp = json.dumps(resp, indent=4)
     return tmp
 
 
@@ -50,9 +57,10 @@ def domanda():
     domanda = request.args.get('richiesta')
     docus = getDocuments(domanda) #[doc0, doc1, doc2]
     docs = json.loads(docus)
+    contenuto = docs[0]
     #resp = docs[0]["documento"]
-    contenuto = "".join([d["documento"]+"\n" for d in docs])
-    return render_template('index.html', context=contenuto)
+    #contenuto = "".join([d["documento"]+"\n" for d in docs])
+    return render_template('index.html', context=contenuto["documento"])
 
 @app.route("/servizio", methods=['GET'])
 def servizio():
