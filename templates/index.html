@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 
 <head>
-    <meta charset="utf-8" />
+    <meta charset="latin-1" />
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
     <meta name="description" content="" />
     <meta name="author" content="" />
@@ -12,7 +12,11 @@
     <title>Comune di Bari: Sportello online</title>
     <!-- BOOTSTRAP CORE STYLE CSS -->
     <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.css') }}">
-
+    <script>
+        function load_id(){
+        
+        }
+    </script>
 </head>
 
 <body style="font-family:Verdana">
@@ -31,6 +35,7 @@
                                     placeholder="Effettuare una richesta" />
                                 <span class="input-group-btn">
                                     <input type="submit" class="btn btn-info" type="button"></button>
+               
                                 </span>
                             </form>
                         </div>
@@ -53,27 +58,30 @@
                                             </div>
 
                                             <div>
-                                              <label  style="visibility:hidden;" for="doc0"> {{id0}} </label>
-                                              <label  style="visibility:hidden;" for="doc1"> {{id1}} </label>
-                                              <label  style="visibility:hidden;" for="doc2"> {{id2}} </label>
+                                              <label id="lab_doc0" for="doc0"> {{id0}} </label>
+                                              <label id="lab_doc1" for="doc1"> {{id1}} </label>
+                                              <label id="lab_doc2" for="doc2"> {{id2}} </label>
                                             </div>
 
                                             <div style="display: flex;">
-                                            <form action="http://127.0.0.1:5000/allegati" method="get" style="float:left;"><br>
+                                            <form id="form_allegati"  name="form_allegati" action="http://127.0.0.1:5000/allegati" method="get" style="float:left;"><br>
                                                 <span class="input-group-btn">
-                                                    <input name="id_doc" type="hidden" value="2" id="id_doc">
+                                                    <input name="id_doc"  value="1" id="id_doca">
                                                     <input type="submit" value="Allegati" class="btn btn-info" type="button"></button>
                                                 </span>
-                                            </form>
+                                            </form> 
 
-                                            <form action="http://127.0.0.1:5000/servizio" method="get" style="float:right;"><br>
+                                            <form id="form_servizio" action="http://127.0.0.1:5000/servizio" method="get" style="float:right;"><br>
                                                 <span class="input-group-btn">
-                                                    <input name="id_doc" type="hidden" value="2" id="id_doc">
+                                                    <input name="id_doc" type="hidden" value="1" id="id_docs">
                                                     <input type="submit" value="Vai al Servizio" class="btn btn-info" type="button"></button>
                                                 </span>
                                             </form>
 
-
+                                            <script>
+                                                    document.getElementById("id_doca").value = document.getElementById("lab_doc0").textContent;
+                                                    document.getElementById("id_docs").value = document.getElementById("lab_doc0").textContent;
+                                               </script>
                                           </div>
                                             <br />
                                             <small class="text-muted">Antonio Decaro | 23rd June at 5:00pm</small>
