@@ -60,7 +60,8 @@ def domanda():
     contenuto = docs[0]
     #resp = docs[0]["documento"]
     #contenuto = "".join([d["documento"]+"\n" for d in docs])
-    return render_template('index.html', context=contenuto["documento"])
+    return render_template('index.html', context=contenuto["documento"],
+                                id0=docs[1][0],id1=docs[1][1],id2=docs[1][2])
 
 @app.route("/servizio", methods=['GET'])
 def servizio():

@@ -52,9 +52,16 @@
                                                 {{context}}
                                             </div>
 
+                                            <div>
+                                              <label  style="visibility:hidden;" for="doc0"> {{id0}} </label>
+                                              <label  style="visibility:hidden;" for="doc1"> {{id1}} </label>
+                                              <label  style="visibility:hidden;" for="doc2"> {{id2}} </label>
+                                            </div>
+
                                             <div style="display: flex;">
                                             <form action="http://127.0.0.1:5000/allegati" method="get" style="float:left;"><br>
                                                 <span class="input-group-btn">
+
                                                     <input name="id_doc" type="hidden" value="2" id="id_doc">
                                                     <input type="submit" value="Allegati" class="btn btn-info" type="button"></button>
                                                 </span>
