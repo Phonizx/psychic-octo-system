@@ -62,7 +62,7 @@ def mostraDoc(id):
     if (id < 0):
         id = 0
     doc = documenti[id]["documento"]
-    return render_template('index.html', context=doc)
+    return render_template('index.html', context=doc,id0=id)
 
 @app.route("/mostraTitoli/<id1>/<id2>", methods=['GET'])
 def mostraTitoli(id1, id2):
@@ -109,14 +109,14 @@ def isNotRequest(sentence):
 def servizio():
     id = request.args.get('id_doc')
     contenuto = documenti[int(id)]["servizio"]
-    return render_template('index.html', context=contenuto)
+    return render_template('index.html', context=contenuto,id0=id)
 
 @app.route("/allegati", methods=['GET'])
 def allegati():
     id = request.args.get('id_doc')
     contenuto = documenti[int(id)]["allegati"]
-    contenuto = "".join([str(link)+"\n\n\n\n\n" for link in contenuto])
-    return render_template('index.html', context=contenuto)
+    contenuto = "".join([str(link) for link in contenuto])
+    return render_template('index.html', context=contenuto,id0=id)
 
 if __name__ == "__main__":
     #SigSky
