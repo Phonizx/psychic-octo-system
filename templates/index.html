@@ -12,15 +12,10 @@
     <title>Comune di Bari: Sportello online</title>
     <!-- BOOTSTRAP CORE STYLE CSS -->
     <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.css') }}">
-    <script>
-        function load_id(){
-        
-        }
-    </script>
 </head>
 
 <body style="font-family:Verdana">
-   <iframe allow="autoplay" width="560" height="315" src="https://www.youtube.com/embed/QxoiIrOIAYg?controls=0&amp;start=83;autoplay=1"  frameborder="0" allow="accelerometer; encrypted-media; gyroscope; picture-in-picture" allowfullscreen style="width:0;height:0;border:0; border:none;"></iframe> 
+   
 
     <div class="container">
         <div class="row " style="padding-top:40px;">
@@ -81,9 +76,11 @@
                                             <script>
                                                     document.getElementById("id_doca").value = document.getElementById("lab_doc0").textContent;
                                                     document.getElementById("id_docs").value = document.getElementById("lab_doc0").textContent;
-                                               </script>
+                                            </script>
                                           </div>
                                             <br />
+                                            <a href="{{ url_for('mostraDoc', id=id1) }}">{{titolo1}}</a><br/>
+                                            <a href="{{ url_for('mostraDoc', id=id2) }}">{{titolo2}}</a><br/>
                                             <small class="text-muted">Antonio Decaro | 23rd June at 5:00pm</small>
                                             <hr />
                                         </div>

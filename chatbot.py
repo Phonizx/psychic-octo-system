@@ -17,12 +17,12 @@ from flask import jsonify
 app = Flask(__name__)
 
 #SigSky
-#pred = predictor("C:\\Nuova cartella\\psychic-octo-system\\dataUtils\\")
-#cleaning = TextPreparation("C:\\Nuova cartella\\psychic-octo-system\\")
+pred = predictor("C:\\Nuova cartella\\psychic-octo-system\\dataUtils\\")
+cleaning = TextPreparation("C:\\Nuova cartella\\psychic-octo-system\\")
 
 #phonix
-pred = predictor("/home/phinkie/Scrivania/tes/psychic-octo-system/dataUtils/")
-cleaning = TextPreparation("/home/phinkie/Scrivania/tes/psychic-octo-system/")
+# pred = predictor("/home/phinkie/Scrivania/tes/psychic-octo-system/dataUtils/")
+# cleaning = TextPreparation("/home/phinkie/Scrivania/tes/psychic-octo-system/")
 
 documenti = None
 
@@ -51,9 +51,35 @@ def getDocuments(richiesta):
     tmp = json.dumps(resp, indent=4)
     return tmp
 
+@app.route("/getDoc/<id>", methods=['GET'])
+def getDoc(id):
+    id = int(id)
+    if (id < 0):
+        id = 0
+    return json.dumps(documenti[id])
+
+@app.route("/mostraDoc/<id>", methods=['GET'])
+def mostraDoc(id):
+    id = int(id)
+    if (id < 0):
+        id = 0
+    doc = documenti[id]["documento"]
+    return render_template('index.html', context=doc)
+
+@app.route("/mostraTitoli/<id1>/<id2>", methods=['GET'])
+def mostraTitoli(id1, id2):
+    id1_ = int(id1)
+    id2_ = int(id2)
+    doc1 = json.loads(getDoc(id1_))
+    doc2 = json.loads(getDoc(id2_))
+
+    tit1 = doc1["documento"].split('Cosa')[0]
+    tit2 = doc2["documento"].split('Cosa')[0]
+    return render_template('index.html', id1=id1_, id2=id2_, titolo1=tit1, titolo2=tit2)
 
 @app.route("/domanda", methods=['GET'])
 def domanda():
+    
     domanda = request.args.get('richiesta')
     docus = getDocuments(domanda) #[doc0, doc1, doc2]
     docs = json.loads(docus)
@@ -78,11 +104,11 @@ def allegati():
 
 if __name__ == "__main__":
     #SigSky
-    #cleaning.load_stopWord("C:\\Nuova cartella\\psychic-octo-system\\dataUtils\\stop_words.txt") #paths
-    #pred.restore_model("C:\\Nuova cartella\\psychic-octo-system\\Models\\0601 080\\model.tflearn",554,240)
+    cleaning.load_stopWord("C:\\Nuova cartella\\psychic-octo-system\\dataUtils\\stop_words.txt") #paths
+    pred.restore_model("C:\\Nuova cartella\\psychic-octo-system\\Models\\0601 080\\model.tflearn",554,240)
 
     #phonix
-    pred.restore_model("/home/phinkie/Scrivania/tes/psychic-octo-system/Models/0601 080/model.tflearn",554,240)
-    cleaning.load_stopWord("/home/phinkie/Scrivania/psychic-octo-system/dataUtils/stop_words.txt")
+    # pred.restore_model("/home/phinkie/Scrivania/tes/psychic-octo-system/Models/0601 080/model.tflearn",554,240)
+    # cleaning.load_stopWord("/home/phinkie/Scrivania/psychic-octo-system/dataUtils/stop_words.txt")
     documenti = pred.get_documents()
     app.run(host='0.0.0.0',debug=True)
