@@ -15,25 +15,34 @@
 </head>
 
 <body style="font-family:Verdana">
-   
+
 
     <div class="container">
         <div class="row " style="padding-top:40px;">
-            <h3 class="text-center">Sportello online</h3>
-            <br /><br />
-            <div class="col-md-8">
+            <div class="page-header">
+                <h1 class="text-center">Sportello online Comune di Bari</h3>
+            </div>
+            <br />
+            <div class=" ">E' possibile chiedere qualsiasi servizio del Comune di Bari;
+                dopo aver effettuato una prima ricerca digitare "mostrami altri documenti
+                o qualcosa di simili per fare visualizzare altri documenti relativi alla richiesta.
+            </div> <br />
+            <div class="col-md">
                 <div class="panel panel-info">
                     <div class="panel-footer">
-                        <div class="input-group">
-                            <form action="http://127.0.0.1:5000/domanda" method="get"><br>
-                                <input type="text" name="richiesta" id="richiesta" class="form-control"
-                                    placeholder="Effettuare una richesta" />
-                                <span class="input-group-btn">
-                                    <input type="submit" class="btn btn-info" type="button"></button>
-               
-                                </span>
+                        <div class="row-sm-4">
+                            <form action="http://127.0.0.1:5000/domanda" method="get">
+                                <div class="input-group">
+
+                                    <input type="text" name="richiesta" id="richiesta" class="form-control"
+                                        placeholder="Effettuare una richesta a Decaro" />
+                                    <span class="input-group-btn">
+                                        <input type="submit" class="btn btn-info" type="button"></button>
+                                    </span>
+                                </div>
                             </form>
                         </div>
+
                     </div>
                     <div class="panel-heading">
                         Sportello online
@@ -52,48 +61,66 @@
                                                 {{context}}
                                             </div>
 
-                                            <div>
-                                              <label id="lab_doc0" for="doc0"> {{id0}} </label>
-                                              <label id="lab_doc1" for="doc1"> {{id1}} </label>
-                                              <label id="lab_doc2" for="doc2"> {{id2}} </label>
-                                            </div>
+                                            
 
                                             <div style="display: flex;">
-                                            <form id="form_allegati"  name="form_allegati" action="http://127.0.0.1:5000/allegati" method="get" style="float:left;"><br>
-                                                <span class="input-group-btn">
-                                                    <input name="id_doc"  value="1" id="id_doca">
-                                                    <input type="submit" value="Allegati" class="btn btn-info" type="button"></button>
-                                                </span>
-                                            </form> 
+                                                <form id="form_allegati" name="form_allegati"
+                                                    action="http://127.0.0.1:5000/allegati" method="get"
+                                                    style="float:left;"><br>
+                                                    <span class="input-group-btn">
+                                                        <input name="id_doc" value="1" id="id_doca">
+                                                        <input type="submit" value="Allegati" class="btn btn-info"
+                                                            type="button"></button>
+                                                    </span>
+                                                </form>
 
-                                            <form id="form_servizio" action="http://127.0.0.1:5000/servizio" method="get" style="float:right;"><br>
-                                                <span class="input-group-btn">
-                                                    <input name="id_doc" type="hidden" value="1" id="id_docs">
-                                                    <input type="submit" value="Vai al Servizio" class="btn btn-info" type="button"></button>
-                                                </span>
-                                            </form>
+                                                <br />
+                                                <form id="form_servizio" action="http://127.0.0.1:5000/servizio"
+                                                    method="get" style="float:right;"><br>
+                                                    <span class="input-group-btn">
+                                                        <input name="id_doc" type="hidden" value="1" id="id_docs">
+                                                        <input type="submit" value="Vai al Servizio"
+                                                            class="btn btn-info" type="button"></button>
+                                                    </span>
+                                                </form>
 
-                                            <script>
-                                                    document.getElementById("id_doca").value = document.getElementById("lab_doc0").textContent;
-                                                    document.getElementById("id_docs").value = document.getElementById("lab_doc0").textContent;
-                                            </script>
-                                          </div>
+                                            </div>
                                             <br />
-                                            <a href="{{ url_for('mostraDoc', id=id1) }}">{{titolo1}}</a><br/>
-                                            <a href="{{ url_for('mostraDoc', id=id2) }}">{{titolo2}}</a><br/>
-                                            <small class="text-muted">Antonio Decaro | 23rd June at 5:00pm</small>
+                                            <a href="{{ url_for('mostraDoc', id=id1) }}"> {{titolo1}}</a><br />
+                                            <a href="{{ url_for('mostraDoc', id=id2) }}"> {{titolo2}}</a><br />
+                                            
+                                        <small class="text-muted">Antonio Decaro | <small class="text-muted" id="date"></small></small><script>
+                                                var date = new Date();
+                                                var mins = date.getMinutes()
+                                                if (mins < 10){
+                                                mins = "0"+ date.getMinutes().toString();} 
+                                                date_today = (date.getDate())+"/"+(date.getMonth()+1)+"/"+date.getFullYear()+"; "+date.getHours() +":"+mins ;
+                                                document.getElementById("date").innerHTML = date_today;
+                                                </script> 
+                                        
                                             <hr />
                                         </div>
+                                        <div>
+                                            <label style="visibility:hidden" id="lab_doc0" for="doc0"> {{id0}}
+                                            </label>
+                                            <label style="visibility:hidden" id="lab_doc1" for="doc1"> {{id1}}
+                                            </label>
+                                            <label style="visibility:hidden" id="lab_doc2" for="doc2"> {{id2}}
+                                            </label>
+                                        </div>
+                                        <script>
+                                            document.getElementById("id_doca").value = document.getElementById("lab_doc0").textContent;
+                                            document.getElementById("id_docs").value = document.getElementById("lab_doc0").textContent;
+                                        </script>
                                     </div>
-
                                 </div>
                             </li>
-
                         </ul>
                     </div>
                 </div>
             </div>
         </div>
+    </div>
     </div>
 </body>
 

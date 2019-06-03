@@ -17,12 +17,12 @@ from flask import jsonify
 app = Flask(__name__)
 
 #SigSky
-#pred = predictor("C:\\Nuova cartella\\psychic-octo-system\\dataUtils\\")
-#cleaning = TextPreparation("C:\\Nuova cartella\\psychic-octo-system\\")
+pred = predictor("C:\\Nuova cartella\\psychic-octo-system\\dataUtils\\")
+cleaning = TextPreparation("C:\\Nuova cartella\\psychic-octo-system\\")
 
 #phonix
-pred = predictor("/home/phinkie/Scrivania/tes/psychic-octo-system/dataUtils/")
-cleaning = TextPreparation("/home/phinkie/Scrivania/tes/psychic-octo-system/")
+# pred = predictor("/home/phinkie/Scrivania/tes/psychic-octo-system/dataUtils/")
+# cleaning = TextPreparation("/home/phinkie/Scrivania/tes/psychic-octo-system/")
 
 documenti = None
 store_ids = [0,0,0] #conserva gli id dei documenti correnti
@@ -120,12 +120,12 @@ def allegati():
 
 if __name__ == "__main__":
     #SigSky
-    #cleaning.load_stopWord("C:\\Nuova cartella\\psychic-octo-system\\dataUtils\\stop_words.txt") #paths
-    #pred.restore_model("C:\\Nuova cartella\\psychic-octo-system\\Models\\0601 080\\model.tflearn",554,240)
+    cleaning.load_stopWord("C:\\Nuova cartella\\psychic-octo-system\\dataUtils\\stop_words.txt") #paths
+    pred.restore_model("C:\\Nuova cartella\\psychic-octo-system\\Models\\0601 080\\model.tflearn",554,240)
 
     #phonix
-    pred.restore_model("/home/phinkie/Scrivania/tes/psychic-octo-system/Models/0601 080/model.tflearn",554,240)
-    cleaning.load_stopWord("/home/phinkie/Scrivania/psychic-octo-system/dataUtils/stop_words.txt")
+    # pred.restore_model("/home/phinkie/Scrivania/tes/psychic-octo-system/Models/0601 080/model.tflearn",554,240)
+    # cleaning.load_stopWord("/home/phinkie/Scrivania/psychic-octo-system/dataUtils/stop_words.txt")
     documenti = pred.get_documents()
 
     app.run(host='0.0.0.0',debug=True)
