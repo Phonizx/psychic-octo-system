@@ -17,21 +17,18 @@ from flask import jsonify
 app = Flask(__name__)
 
 #SigSky
-pred = predictor("C:\\Nuova cartella\\psychic-octo-system\\dataUtils\\")
-cleaning = TextPreparation("C:\\Nuova cartella\\psychic-octo-system\\")
+#pred = predictor("C:\\Nuova cartella\\psychic-octo-system\\dataUtils\\")
+#cleaning = TextPreparation("C:\\Nuova cartella\\psychic-octo-system\\")
 
 #phonix
-# pred = predictor("/home/phinkie/Scrivania/tes/psychic-octo-system/dataUtils/")
-# cleaning = TextPreparation("/home/phinkie/Scrivania/tes/psychic-octo-system/")
+pred = predictor("/home/phinkie/Scrivania/tes/psychic-octo-system/dataUtils/")
+cleaning = TextPreparation("/home/phinkie/Scrivania/tes/psychic-octo-system/")
 
 documenti = None
-
+store_ids = [0,0,0] #conserva gli id dei documenti correnti
 
 @app.route("/") #da sistemare
 def home():
-
-
-
     return render_template('index.html', context="") #"Model: ok"
 
 
@@ -39,6 +36,7 @@ def home():
 def getDocuments(richiesta):
     domanda = cleaning.prepare_sentence(richiesta)
     processed = " ".join(domanda)
+
     resp = [] #json objects
 
     id_docs = pred.prediction(processed) # 3 documenti piu probabili
@@ -79,15 +77,33 @@ def mostraTitoli(id1, id2):
 
 @app.route("/domanda", methods=['GET'])
 def domanda():
-    
     domanda = request.args.get('richiesta')
-    docus = getDocuments(domanda) #[doc0, doc1, doc2]
-    docs = json.loads(docus)
-    contenuto = docs[0]
-    #resp = docs[0]["documento"]
-    #contenuto = "".join([d["documento"]+"\n" for d in docs])
-    return render_template('index.html', context=contenuto["documento"],
+    if(isNotRequest(domanda) and len(store_ids) > 0):
+        return redirect(url_for("mostraTitoli",id1=store_ids[1],id2=store_ids[2]))
+    else:
+        docus = getDocuments(domanda) #[doc0, doc1, doc2]
+        docs = json.loads(docus)
+        contenuto = docs[0]
+
+        for i in range(0,len(docs[1])):
+            store_ids[i] = docs[1][i]
+
+        return render_template('index.html', context=contenuto["documento"],
                                 id0=docs[1][0],id1=docs[1][1],id2=docs[1][2])
+
+def isNotRequest(sentence):
+    i = 0
+    sentence = cleaning.prepare_sentence(sentence)
+    altri = ['ulterior', 'risult','mostr', 'document', 'correl']
+    for word in sentence:
+        if(word in altri):
+            i = i + 1
+    prob = i / len(sentence)
+
+    if(prob > 0.60):
+        return True
+    else:
+        return False
 
 @app.route("/servizio", methods=['GET'])
 def servizio():
@@ -104,11 +120,12 @@ def allegati():
 
 if __name__ == "__main__":
     #SigSky
-    cleaning.load_stopWord("C:\\Nuova cartella\\psychic-octo-system\\dataUtils\\stop_words.txt") #paths
-    pred.restore_model("C:\\Nuova cartella\\psychic-octo-system\\Models\\0601 080\\model.tflearn",554,240)
+    #cleaning.load_stopWord("C:\\Nuova cartella\\psychic-octo-system\\dataUtils\\stop_words.txt") #paths
+    #pred.restore_model("C:\\Nuova cartella\\psychic-octo-system\\Models\\0601 080\\model.tflearn",554,240)
 
     #phonix
-    # pred.restore_model("/home/phinkie/Scrivania/tes/psychic-octo-system/Models/0601 080/model.tflearn",554,240)
-    # cleaning.load_stopWord("/home/phinkie/Scrivania/psychic-octo-system/dataUtils/stop_words.txt")
+    pred.restore_model("/home/phinkie/Scrivania/tes/psychic-octo-system/Models/0601 080/model.tflearn",554,240)
+    cleaning.load_stopWord("/home/phinkie/Scrivania/psychic-octo-system/dataUtils/stop_words.txt")
     documenti = pred.get_documents()
+
     app.run(host='0.0.0.0',debug=True)
