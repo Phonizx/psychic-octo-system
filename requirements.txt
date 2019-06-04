@@ -9,7 +9,6 @@ certifi==2019.3.9
 chardet==3.0.4
 Click==7.0
 cryptography==1.7.1
-cupshelpers==1.0
 cx-Freeze==5.1.1
 cycler==0.10.0
 docutils==0.14
