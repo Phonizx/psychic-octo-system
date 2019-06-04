@@ -75,6 +75,8 @@ def mostraTitoli(id1, id2):
     tit2 = doc2["documento"].split('Cosa')[0]
     return render_template('index.html', id1=id1_, id2=id2_, titolo1=tit1, titolo2=tit2)
 
+
+
 @app.route("/domanda", methods=['GET'])
 def domanda():
     domanda = request.args.get('richiesta')
@@ -115,7 +117,7 @@ def servizio():
 def allegati():
     id = request.args.get('id_doc')
     contenuto = documenti[int(id)]["allegati"]
-    contenuto = "".join([str(link) for link in contenuto])
+    contenuto = "".join(["  Allegato:  "+str(link) for link in contenuto])
     return render_template('index.html', context=contenuto,id0=id)
 
 if __name__ == "__main__":
