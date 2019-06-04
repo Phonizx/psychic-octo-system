@@ -132,4 +132,3 @@ if __name__ == "__main__":
     app.run() 
     #documenti = pred.get_documents()
 
-    app.run()
