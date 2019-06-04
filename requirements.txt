@@ -9,7 +9,7 @@ numpy==1.16.3
 pymongo==3.8.0
 wheel==0.33.4
 tensorboard==1.13.1
-tensorflow==1.13.1
+tensorflow==2.0.0
 tensorflow-estimator==1.13.0
 termcolor==1.1.0
 tf-estimator-nightly==1.14.0.dev2019030115
