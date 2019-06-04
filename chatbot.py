@@ -1,8 +1,7 @@
-'''
 import os
 import json
 import numpy as np
-'''
+
 from flask import Flask
 from flask import request
 from flask import redirect, url_for
@@ -10,10 +9,11 @@ from flask import render_template
 
 from pymongo import MongoClient
 
-from octosystem import predictor
-from Utils import TextPreparation
+
 from flask import jsonify
 
+from .octosystem import predictor
+from .Utils import TextPreparation
 
 app = Flask(__name__,template_folder='templates')
 
