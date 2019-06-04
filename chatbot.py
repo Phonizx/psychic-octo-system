@@ -9,11 +9,11 @@ from flask import redirect, url_for
 from flask import render_template
 
 from pymongo import MongoClient
-'''
+
 from octosystem import predictor
 from Utils import TextPreparation
 from flask import jsonify
-'''
+
 
 app = Flask(__name__)
 
@@ -30,8 +30,7 @@ store_ids = [0,0,0] #conserva gli id dei documenti correnti
 
 @app.route("/") #da sistemare
 def home():
-     return "<h1>Tested in deployment</h1>" 
-    #return render_template('index.html', context="") #"Model: ok"
+     return render_template('index.html', context="") #"Model: ok"
 
 
 @app.route("/getDocuments/<richiesta>", methods=['GET']) #da sistemare
