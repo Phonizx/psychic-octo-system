@@ -10,9 +10,9 @@ from flask import render_template
 
 from pymongo import MongoClient
 
-#from octosystem import predictor
-#from Utils import TextPreparation
-#from flask import jsonify
+from octosystem import predictor
+from Utils import TextPreparation
+from flask import jsonify
 
 
 app = Flask(__name__,template_folder='templates')
