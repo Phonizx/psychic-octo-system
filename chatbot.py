@@ -12,8 +12,8 @@ from pymongo import MongoClient
 
 from flask import jsonify
 
-from octosystem import predictor
-from Utils import TextPreparation
+from octosystem.predictor import predictor
+from Utils.TextCleaning import TextPreparation
 
 app = Flask(__name__,template_folder='templates')
 
