@@ -1,1 +1,1 @@
-from .octosystem import predictor 
+from octosystem import predictor 
