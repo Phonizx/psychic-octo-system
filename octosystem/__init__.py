@@ -1,1 +1,1 @@
-from .app.octosystem import predictor 
+from .octosystem import predictor 
