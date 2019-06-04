@@ -1,17 +1,4 @@
-absl-py==0.7.1
-astor==0.7.1
-astroid==2.2.5
 beautifulsoup4==4.7.1
-boto==2.49.0
-boto3==1.9.147
-botocore==1.12.147
-certifi==2019.3.9
-chardet==3.0.4
-Click==7.0
-cryptography==1.7.1
-cx-Freeze==5.1.1
-cycler==0.10.0
-docutils==0.14
 Flask==1.0.3
 gunicorn==19.9.0
 Jinja2==2.10.1
