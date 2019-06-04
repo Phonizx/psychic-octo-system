@@ -47,7 +47,7 @@ def getDocuments(richiesta):
     ids = [int(item) for item in id_docs]
     resp.append(ids)
 
-    tmp = json.dumps(resp, indent=4)
+    tmp = simplejson.dumps(resp, indent=4)
     return tmp
 
 @app.route("/getDoc/<id>", methods=['GET'])
@@ -55,7 +55,7 @@ def getDoc(id):
     id = int(id)
     if (id < 0):
         id = 0
-    return json.dumps(documenti[id])
+    return simplejson.dumps(documenti[id])
 
 @app.route("/mostraDoc/<id>", methods=['GET'])
 def mostraDoc(id):
@@ -69,8 +69,8 @@ def mostraDoc(id):
 def mostraTitoli(id1, id2):
     id1_ = int(id1)
     id2_ = int(id2)
-    doc1 = json.loads(getDoc(id1_))
-    doc2 = json.loads(getDoc(id2_))
+    doc1 = simplejson.loads(getDoc(id1_))
+    doc2 = simplejson.loads(getDoc(id2_))
 
     tit1 = doc1["documento"].split('Cosa')[0]
     tit2 = doc2["documento"].split('Cosa')[0]
@@ -85,7 +85,7 @@ def domanda():
         return redirect(url_for("mostraTitoli",id1=store_ids[1],id2=store_ids[2]))
     else:
         docus = getDocuments(domanda) #[doc0, doc1, doc2]
-        docs = json.loads(docus)
+        docs = simplejson.loads(docus)
         contenuto = docs[0]
 
         for i in range(0,len(docs[1])):
