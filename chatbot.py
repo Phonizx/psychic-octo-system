@@ -17,13 +17,9 @@ from pymongo import MongoClient
 
 app = Flask(__name__,template_folder='templates')
 
-#SigSky
-#pred = predictor("C:\\Nuova cartella\\psychic-octo-system\\dataUtils\\")
-#cleaning = TextPreparation("C:\\Nuova cartella\\psychic-octo-system\\")
 
-#phonix
-# pred = predictor("/home/phinkie/Scrivania/tes/psychic-octo-system/dataUtils/")
-# cleaning = TextPreparation("/home/phinkie/Scrivania/tes/psychic-octo-system/")
+pred = predictor("/app/dataUtils/")
+cleaning = TextPreparation("/app/")
 
 documenti = None
 store_ids = [0,0,0] #conserva gli id dei documenti correnti
@@ -121,14 +117,8 @@ def allegati():
     contenuto = "".join(["  Allegato:  "+str(link) for link in contenuto])
     return render_template('index.html', context=contenuto,id0=id)
 
- 
-    #SigSky
-    #cleaning.load_stopWord("C:\\Nuova cartella\\psychic-octo-system\\dataUtils\\stop_words.txt") #paths
-    #pred.restore_model("C:\\Nuova cartella\\psychic-octo-system\\Models\\0601 080\\model.tflearn",554,240)
-
-    #phonix
-    # pred.restore_model("/home/phinkie/Scrivania/tes/psychic-octo-system/Models/0601 080/model.tflearn",554,240)
-    # cleaning.load_stopWord("/home/phinkie/Scrivania/psychic-octo-system/dataUtils/stop_words.txt")
-    #app.run() 
-    #documenti = pred.get_documents()
+if __name__ == "__main__":
+      pred.restore_model("/app/Models/0601 080/model.tflearn",554,240)
+      cleaning.load_stopWord("/app/dataUtils/stop_words.txt")
+      documenti = pred.get_documents()
 
