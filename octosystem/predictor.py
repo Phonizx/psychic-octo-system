@@ -22,11 +22,13 @@ class predictor:
         with open(self.path + "words.json") as wordsFile:
             wf = json.load(wordsFile)
             self.words = wf[0]
-            self.classes = wf[2]
+            #self.classes = wf[2]
 
         with open(self.path + "docTag.json") as docFile:
             self.documents = json.load(docFile)
 
+    def get_documents(self): #return all documents 
+        return self.documents
 
     def bow(self,sentence): #da  stemmatizzare , eliminare le stopwords e la punteggiatura
         # tokenize the pattern
@@ -61,9 +63,17 @@ class predictor:
         return self.model
 
     def prediction(self,sentence):
-        classDocument = self.classes[np.argmax(self.model.predict(pred.bow(sentence)))]
-        return self.getdocumentById(classDocument)
-#/home/phinkie/Scrivania/psychic-octo-system/Models/05-30|17:38/model.tflearn model bk 
-pred = predictor("/home/phinkie/Scrivania/psychic-octo-system/dataUtils/")
-model = pred.restore_model("/home/phinkie/Scrivania/psychic-octo-system/Models/05-30|17:38/model.tflearn",561,240) #vocabSize, lenClasses
-print(pred.prediction("mortal concession"))
+        pred = self.model.predict(self.bow(sentence))
+        docs = (-pred).argsort()[-3:]
+        docs_corr = []
+        for i in range(0,3):
+            docs_corr.append(docs[0][i])
+        #print(self.getdocumentById(docs_corr[0]))
+        #print(docs_corr)
+        return docs_corr
+
+
+#/home/phinkie/Scrivania/psychic-octo-system/Models/05-30|17:38/model.tflearn model bk
+#pred = predictor("/home/phinkie/Scrivania/psychic-octo-system/dataUtils/")
+#model = pred.restore_model("/home/phinkie/Scrivania/psychic-octo-system/Models/0601 080/model.tflearn",554,240) #vocabSize, lenClasses
+#print(pred.prediction("cors nuot"))

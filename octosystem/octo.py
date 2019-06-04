@@ -44,12 +44,13 @@ class Training:
             self.save_model(self.model)
 
     def save_model(self,model):
-         save_path = "/home/phinkie/Scrivania/psychic-octo-system/Models/"
+         save_path = "C:\\Nuova cartella\\psychic-octo-system\\Models\\"#"/home/phinkie/Scrivania/psychic-octo-system/Models/"
          dir = datetime.datetime.now().strftime('%m-%d|%H:%M')
          save_path += dir
          os.makedirs(save_path)
          model.save(save_path + '/model.tflearn')
          print("Model stored in: " + save_path)
-
-mod = Training("/home/phinkie/Scrivania/psychic-octo-system/dataUtils/")
+         
+path = "C:\\Nuova cartella\\psychic-octo-system\\"
+mod = Training(path)#"/home/phinkie/Scrivania/psychic-octo-system/dataUtils/")
 mod.training(2000)

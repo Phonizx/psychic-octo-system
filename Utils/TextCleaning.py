@@ -113,8 +113,8 @@ class TextPreparation:
         print("Documenti senza tag: " + str(empty))
         print(doc_empty)
 
-
-        tag_file = open("/home/phinkie/Scrivania/psychic-octo-system/dataUtils/docTag01.json","w")
+        filetags = self.path +"dataUtils\\docTag1.json"
+        tag_file = open(filetags,"w")
         tag_file.write(json.dumps(document_tag,indent=4))
         tag_file.close()
             #self.split_inWindow(2,title)
@@ -128,7 +128,7 @@ class TextPreparation:
         s = re.sub(r'\\u00c3\\u00ac', 'ì', s)
         s = re.sub(r'\\u00c3\\u00b2', 'ò', s)
         s = re.sub(r'(\\u00c3\\u00b9)|(\\u00c3\\u0099)', 'ù', s)
-        s = re.sub(r'\\u00c2\\u00b0', '°', s)
+        s = re.sub(r'\\u00c2\\u00b0', 'o', s)
         s = re.sub(r'\\u00c2\\u00aa', 'a', s)  #primo
         s = re.sub(r'(\\u00e2\\u0080\\u0098)|(\\u00e2\\u0080\\u0093)|(\\u00e2\\u0080\\u0099)|(\\u00e2\\u0080\\u009c)|(\\u00e2\\u0080\\u009d)|(\\u00c2\\u00ab)|(\\u00c2\\u00bb)','\'', s)
         s = re.sub(r'\\u00e2\\u0082\\u00ac', 'euro', s)
@@ -138,7 +138,7 @@ class TextPreparation:
 
     def correctDocs(self, path):
 
-        with open(path+"docs.json", "w") as docsw:
+        with open(path+"docs1.json", "w") as docsw:
             with open(path+"docs.json", "r") as docsr:
                 for line in docsr:
                     docsw.write(self.correctWords(line))
@@ -158,7 +158,7 @@ class TextPreparation:
             print("",end="")
 
 
-
+'''
 path = "/home/phinkie/Scrivania/psychic-octo-system/data/"
 t = TextPreparation(path)
 #t.correctDocs(path)
@@ -169,3 +169,4 @@ t.load_stopWord("/home/phinkie/Scrivania/psychic-octo-system/dataUtils/stop_word
 #tp.prepare_texts()
 
 t.labelling("/home/phinkie/Scrivania/psychic-octo-system/data/docs.json")
+'''
