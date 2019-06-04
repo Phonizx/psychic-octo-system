@@ -30,7 +30,7 @@ store_ids = [0,0,0] #conserva gli id dei documenti correnti
 
 @app.route("/") #da sistemare
 def home():
-     return render_template('home.html') #"Model: ok"
+     return render_template('index.html', context="") #"Model: ok"
 
 
 @app.route("/getDocuments/<richiesta>", methods=['GET']) #da sistemare
