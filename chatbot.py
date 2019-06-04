@@ -117,7 +117,6 @@ def allegati():
     contenuto = "".join(["  Allegato:  "+str(link) for link in contenuto])
     return render_template('index.html', context=contenuto,id0=id)
 
-if __name__ == "__main__":
       #pred.restore_model("/app/Models/0601 080/model.tflearn",554,240)
       #cleaning.load_stopWord("/app/dataUtils/stop_words.txt")
       #documenti = pred.get_documents()
