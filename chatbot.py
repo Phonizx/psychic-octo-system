@@ -12,7 +12,7 @@ from pymongo import MongoClient
 
 from flask import jsonify
 
-from .octosystem import predictor
+from app.octosystem import predictor
 #from app.Utils import TextPreparation
 
 app = Flask(__name__,template_folder='templates')
