@@ -17,3 +17,4 @@ tflearn==0.3.2
 mock==3.0.5
 absl-py==0.7.1
 six==1.12.0
+simplejson==3.16.0
