@@ -1,24 +1,25 @@
+'''
 import os
 import json
 import numpy as np
-
+'''
 from flask import Flask
 from flask import request
 from flask import redirect, url_for
 from flask import render_template
 
 from pymongo import MongoClient
-
+'''
 from octosystem import predictor
 from Utils import TextPreparation
 from flask import jsonify
-
+'''
 
 app = Flask(__name__)
 
 #SigSky
-pred = predictor("C:\\Nuova cartella\\psychic-octo-system\\dataUtils\\")
-cleaning = TextPreparation("C:\\Nuova cartella\\psychic-octo-system\\")
+#pred = predictor("C:\\Nuova cartella\\psychic-octo-system\\dataUtils\\")
+#cleaning = TextPreparation("C:\\Nuova cartella\\psychic-octo-system\\")
 
 #phonix
 # pred = predictor("/home/phinkie/Scrivania/tes/psychic-octo-system/dataUtils/")
@@ -121,7 +122,7 @@ def allegati():
     contenuto = "".join(["  Allegato:  "+str(link) for link in contenuto])
     return render_template('index.html', context=contenuto,id0=id)
 
-if __name__ == "__main__":
+ 
     #SigSky
     #cleaning.load_stopWord("C:\\Nuova cartella\\psychic-octo-system\\dataUtils\\stop_words.txt") #paths
     #pred.restore_model("C:\\Nuova cartella\\psychic-octo-system\\Models\\0601 080\\model.tflearn",554,240)
