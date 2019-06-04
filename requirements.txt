@@ -14,6 +14,7 @@ tensorflow-estimator==1.13.0
 termcolor==1.1.0
 tf-estimator-nightly==1.14.0.dev2019030115
 tflearn==0.3.2
+tensorflow-gpu==1.13.1
 mock==3.0.5
 absl-py==0.7.1
 six==1.12.0
