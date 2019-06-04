@@ -12,14 +12,14 @@ from pymongo import MongoClient
 
 from flask import jsonify
 
-from .octosystem import predictor
-from .Utils import TextPreparation
+#from .octosystem import predictor
+#from .Utils import TextPreparation
 
 app = Flask(__name__,template_folder='templates')
 
 
-pred = predictor("/app/dataUtils/")
-cleaning = TextPreparation("/app/")
+#pred = predictor("/app/dataUtils/")
+#cleaning = TextPreparation("/app/")
 
 documenti = None
 store_ids = [0,0,0] #conserva gli id dei documenti correnti
@@ -118,7 +118,7 @@ def allegati():
     return render_template('index.html', context=contenuto,id0=id)
 
 if __name__ == "__main__":
-      pred.restore_model("/app/Models/0601 080/model.tflearn",554,240)
-      cleaning.load_stopWord("/app/dataUtils/stop_words.txt")
-      documenti = pred.get_documents()
+      #pred.restore_model("/app/Models/0601 080/model.tflearn",554,240)
+      #cleaning.load_stopWord("/app/dataUtils/stop_words.txt")
+      #documenti = pred.get_documents()
 
