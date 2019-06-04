@@ -20,11 +20,11 @@ app = Flask(__name__,template_folder='templates')
 
 pred = predictor.predictor("/app/dataUtils/")
 
-#cleaning = TextPreparation("/app/")
+cleaning = TextPreparation.TextPreparation("/app/")
 
-#pred.restore_model("/app/Models/0601 080/model.tflearn",554,240)
-#cleaning.load_stopWord("/app/dataUtils/stop_words.txt")
-#documenti = pred.get_documents()
+pred.restore_model("/app/Models/0601 080/model.tflearn",554,240)
+cleaning.load_stopWord("/app/dataUtils/stop_words.txt")
+documenti = pred.get_documents()
 
 store_ids = [0,0,0] #conserva gli id dei documenti correnti
 
