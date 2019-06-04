@@ -10,12 +10,12 @@ from flask import render_template
 
 from pymongo import MongoClient
 
-from octosystem import predictor
-from Utils import TextPreparation
-from flask import jsonify
+#from octosystem import predictor
+#from Utils import TextPreparation
+#from flask import jsonify
 
 
-app = Flask(__name__)
+app = Flask(__name__,template_folder='templates')
 
 #SigSky
 #pred = predictor("C:\\Nuova cartella\\psychic-octo-system\\dataUtils\\")
@@ -30,7 +30,7 @@ store_ids = [0,0,0] #conserva gli id dei documenti correnti
 
 @app.route("/") #da sistemare
 def home():
-     return render_template('index.html', context="") #"Model: ok"
+     return render_template('home.html') #"Model: ok"
 
 
 @app.route("/getDocuments/<richiesta>", methods=['GET']) #da sistemare
