@@ -1,1 +1,1 @@
-#from .predictor import predictor
+from app.predictor import predictor
