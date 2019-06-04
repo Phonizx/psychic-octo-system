@@ -129,6 +129,7 @@ if __name__ == "__main__":
     #phonix
     # pred.restore_model("/home/phinkie/Scrivania/tes/psychic-octo-system/Models/0601 080/model.tflearn",554,240)
     # cleaning.load_stopWord("/home/phinkie/Scrivania/psychic-octo-system/dataUtils/stop_words.txt")
+    app.run() 
     #documenti = pred.get_documents()
 
     app.run()
