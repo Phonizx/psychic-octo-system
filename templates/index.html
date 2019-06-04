@@ -35,7 +35,7 @@
                                 <div class="input-group">
 
                                     <input type="text" name="richiesta" id="richiesta" class="form-control"
-                                        placeholder="Effettuare una richesta a Decaro" />
+                                        placeholder="Effettuare una richesta" />
                                     <span class="input-group-btn">
                                         <input type="submit" class="btn btn-info" type="button"></button>
                                     </span>
@@ -54,7 +54,7 @@
                                     <div class="media">
                                         <a class="pull-left" href="#">
                                             <img class="media-object img-circle "
-                                                src="{{url_for('static', filename='decaro.jpg')}}" />
+                                                src="{{url_for('static', filename='logo.png')}}" />
                                         </a>
                                         <div class="media-body">
                                             <div>
@@ -89,7 +89,7 @@
                                             <a href="{{ url_for('mostraDoc', id=id1) }}"> {{titolo1}}</a><br />
                                             <a href="{{ url_for('mostraDoc', id=id2) }}"> {{titolo2}}</a><br />
                                             
-                                        <small class="text-muted">Antonio Decaro | <small class="text-muted" id="date"></small></small><script>
+                                        <small class="text-muted">Comune di Bari | <small class="text-muted" id="date"></small></small><script>
                                                 var date = new Date();
                                                 var mins = date.getMinutes()
                                                 if (mins < 10){
