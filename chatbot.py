@@ -2,6 +2,8 @@
 #import json
 #import numpy as np
 
+import json
+
 from flask import Flask
 from flask import request
 from flask import redirect, url_for
@@ -69,8 +71,8 @@ def mostraDoc(id):
 def mostraTitoli(id1, id2):
     id1_ = int(id1)
     id2_ = int(id2)
-    doc1 = json.load(getDoc(id1_).data)
-    doc2 = json.load(getDoc(id2_).data)
+    doc1 = json.load(getDoc(id1_).response)
+    doc2 = json.load(getDoc(id2_).response)
 
     tit1 = doc1["documento"].split('Cosa')[0]
     tit2 = doc2["documento"].split('Cosa')[0]
