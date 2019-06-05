@@ -47,7 +47,7 @@ def getDocuments(richiesta):
     ids = [int(item) for item in id_docs]
     resp.append(ids)
 
-    tmp = jsonify(resp, indent=4)
+    tmp = jsonify(resp)
     return tmp
 
 @app.route("/getDoc/<id>", methods=['GET'])
@@ -69,8 +69,8 @@ def mostraDoc(id):
 def mostraTitoli(id1, id2):
     id1_ = int(id1)
     id2_ = int(id2)
-    doc1 = json.loads(getDoc(id1_))
-    doc2 = json.loads(getDoc(id2_))
+    doc1 = json.load(getDoc(id1_).data)
+    doc2 = json.load(getDoc(id2_).data)
 
     tit1 = doc1["documento"].split('Cosa')[0]
     tit2 = doc2["documento"].split('Cosa')[0]
