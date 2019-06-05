@@ -112,14 +112,20 @@ def isNotRequest(sentence):
         return True
     else:
         return False
-
+  
 @app.route("/servizio", methods=['GET'])
 def servizio():
     id = request.args.get('id_doc')
-    contenuto = documenti[int(id)]["servizio"]
-    return render_template('index.html', context=contenuto,id0=id)
+    id = int(id)
+    contenuto = documenti[id]["servizio"]
+    titolo = documenti[id]["documento"].split('Cosa')[0]
+    servizio = "Vai al servizio"
+    if contenuto == "-":
+        titolo = "Nessun servizio relativo a:\'"+titolo+"\'."
+        contenuto = "/"
+        servizio = ""
+    return render_template('index.html', servizio=servizio, titolo_servizio=titolo, link_servizio=contenuto,id0=id)
     
-
 @app.route("/allegati", methods=['GET'])
 def allegati():
     id = request.args.get('id_doc')    
