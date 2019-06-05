@@ -24,8 +24,8 @@
             </div>
             <br />
             <div class=" ">E' possibile chiedere qualsiasi servizio del Comune di Bari;
-                dopo aver effettuato una prima ricerca digitare "mostrami altri documenti
-                o qualcosa di simili per fare visualizzare altri documenti relativi alla richiesta.
+                dopo aver effettuato una prima ricerca digitare "mostra altri documenti"
+                o qualcosa di simile per fare visualizzare altri documenti relativi alla richiesta.
             </div> <br />
             <div class="col-md">
                 <div class="panel panel-info">
@@ -59,10 +59,17 @@
                                         <div class="media-body">
                                             <div>
                                                 {{context}}
-                                            </div>
-
-                                            
-
+                                                {{titolo_servizio}}<a href="{{link_servizio}}">{{servizio}}</a>
+                                        </div>
+                                        <div >
+                                            <ul class="list-group">
+                                                {% for allegato in allegati %}
+                                                <li class="list-group-item">
+                                                {{allegato[0]}} <a href="{{allegato[1]}}">{{allegato[2]}}</a><br/>
+                                                </li>
+                                                {% endfor %}
+                                        </ul>
+                                        </div> 
                                             <div style="display: flex;">
                                                 <form id="form_allegati" name="form_allegati"
                                                     action="/allegati" method="get"
@@ -73,7 +80,6 @@
                                                             type="button"></button>
                                                     </span>
                                                 </form>
-
                                                 <br />
                                                 <form id="form_servizio" action="/servizio"
                                                     method="get" style="float:right;"><br>
@@ -83,17 +89,14 @@
                                                             class="btn btn-info" type="button"></button>
                                                     </span>
                                                 </form>
-
                                             </div>
                                             <br />
-                                            <a href="{{ url_for('mostraDoc', id=id1) }}"> {{titolo1}}</a><br />
-                                            <a href="{{ url_for('mostraDoc', id=id2) }}"> {{titolo2}}</a><br />
-                                            
-                                        <small class="text-muted">Comune di Bari | <small class="text-muted" id="date"></small></small><script>
+                                            <a href="{{ url_for('mostraDoc', id=id1) }}">{{titolo1}}</a><br />
+                                            <a href="{{ url_for('mostraDoc', id=id2) }}">{{titolo2}}</a><br />
+                                        <small class="text-muted"> Comune di Bari | <small class="text-muted" id="date"></small></small><script>
                                                 var date = new Date();
                                                 var mins = date.getMinutes()
-                                                if (mins < 10){
-                                                mins = "0"+ date.getMinutes().toString();} 
+                                                if (mins < 10){ mins = "0"+ date.getMinutes().toString(); } 
                                                 date_today = (date.getDate())+"/"+(date.getMonth()+1)+"/"+date.getFullYear()+"; "+date.getHours() +":"+mins ;
                                                 document.getElementById("date").innerHTML = date_today;
                                                 </script> 
