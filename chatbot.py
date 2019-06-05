@@ -88,8 +88,7 @@ def domanda():
     if(isNotRequest(domanda) and len(store_ids) > 0):
         return redirect(url_for("mostraTitoli",id1=store_ids[1],id2=store_ids[2]))
     else:
-        docus = getDocuments(domanda).json #[doc0, doc1, doc2]
-        docs = simplejson.loads(docus)
+        docs = getDocuments(domanda).json #[doc0, doc1, doc2]
         contenuto = docs[0]
 
         for i in range(0,len(docs[1])):
