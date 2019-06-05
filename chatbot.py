@@ -105,7 +105,7 @@ def isNotRequest(sentence):
         if(word in altri):
             i = i + 1
     if (len(sentence) <= 0):
-        return false
+        return False
     prob = i / len(sentence) 
 
     if (prob > 0.60):
