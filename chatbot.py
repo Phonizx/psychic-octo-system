@@ -104,9 +104,11 @@ def isNotRequest(sentence):
     for word in sentence:
         if(word in altri):
             i = i + 1
-    prob = i / len(sentence)
+    if (len(sentence) <= 0):
+        return false
+    prob = i / len(sentence) 
 
-    if(prob > 0.60):
+    if (prob > 0.60):
         return True
     else:
         return False
@@ -116,10 +118,17 @@ def servizio():
     id = request.args.get('id_doc')
     contenuto = documenti[int(id)]["servizio"]
     return render_template('index.html', context=contenuto,id0=id)
+    
 
 @app.route("/allegati", methods=['GET'])
 def allegati():
-    id = request.args.get('id_doc')
-    contenuto = documenti[int(id)]["allegati"]
-    contenuto = "".join(["  Allegato:  "+str(link) for link in contenuto])
-    return render_template('index.html', context=contenuto,id0=id)
+    id = request.args.get('id_doc')    
+    links = documenti[int(id)]["allegati"]
+    allegati = []
+    if len(links) > 0:
+        for i in range (0, len(links)):
+            allegati.append(("Allegato "+str(i+1)+": ", links[i], "Scarica allegato.")) 
+    if len(allegati) == 0:
+        allegati.append(("Nessun allegato disponibile","/",""))
+    return render_template('index.html', allegati=allegati, id0=id)
+    
