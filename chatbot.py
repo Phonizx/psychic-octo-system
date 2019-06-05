@@ -71,11 +71,13 @@ def mostraDoc(id):
 def mostraTitoli(id1, id2):
     id1_ = int(id1)
     id2_ = int(id2)
-    doc1 = json.load(getDoc(id1_).response)
-    doc2 = json.load(getDoc(id2_).response)
+
+    doc1 = getDoc(id1_).json
+    doc2 = getDoc(id2_).json
 
     tit1 = doc1["documento"].split('Cosa')[0]
     tit2 = doc2["documento"].split('Cosa')[0]
+
     return render_template('index.html', id1=id1_, id2=id2_, titolo1=tit1, titolo2=tit2)
 
 
@@ -86,7 +88,7 @@ def domanda():
     if(isNotRequest(domanda) and len(store_ids) > 0):
         return redirect(url_for("mostraTitoli",id1=store_ids[1],id2=store_ids[2]))
     else:
-        docus = getDocuments(domanda) #[doc0, doc1, doc2]
+        docus = getDocuments(domanda).json #[doc0, doc1, doc2]
         docs = simplejson.loads(docus)
         contenuto = docs[0]
 
@@ -122,6 +124,3 @@ def allegati():
     contenuto = documenti[int(id)]["allegati"]
     contenuto = "".join(["  Allegato:  "+str(link) for link in contenuto])
     return render_template('index.html', context=contenuto,id0=id)
-
-      
-
